@@ -20,7 +20,7 @@ let CustomerSchema = new Schema({
     },
     timeStamp: {
         type: String,
-        default: new DataCue(Date.now())
+        default: new Date(Date.now())
     }
 });
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import './App.css';
-import Home from './Components/home/home'; 
+import About from './Components/about/about'; 
+import Login from './Components/login/login';
+import Register from './Components/register/register';
 
 class App extends Component {
   render(){
@@ -20,6 +22,9 @@ class App extends Component {
             <li>
             <NavLink to="/profile" className='nav-link'>Profile</NavLink>
             </li>
+            <li>
+            <NavLink to="/registration" className='nav-link'>Register</NavLink>
+            </li>
           </ul>
          
          
@@ -29,7 +34,9 @@ class App extends Component {
       
    
         </div>
-    <Route path='/' exact component={ Home } />
+    
+    <Route path='/' exact component={ About } />
+    <Route path='/registration' exact component= { Register } />
    
     </Router>
     )
