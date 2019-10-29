@@ -1,22 +1,47 @@
-.App {
+
+html{
+  background: url('./images/spinsterRecords.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.main-home {
+  background-image: linear-gradient(to bottom,rgba(255,255,255,0.7),rgba(255,255,255,0.4),rgba(255,255,255,0.3), rgba(255,255,255,0.0));
+  padding-bottom: 100px; 
+  padding-top: 10px;
+ 
+ }
+
+ .nav-bar{
   text-align: center;
+  
 }
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.nav-bar h1{
   color: white;
+  
+}
+.nav-list{
+  list-style-type: none;
+
+}
+.nav-list a{
+  text-decoration: none;
+}
+.nav-list li{
+  display: inline-block;
+  padding-right: 100px;
+  padding-left: 100px;
+  padding-top: 50px;
+ 
+  
+}
+.nav-link{
+  border: 3px solid white;
+  padding: 30px;
+  color: white;
+  background-color: black;
 }
 
-.App-link {
-  color: #09d3ac;
-}
+
+
