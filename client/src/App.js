@@ -12,7 +12,7 @@ class App extends Component {
           <h1>SPINSTER RECORDS</h1>
           <ul className='nav-list'>
             <li>
-              <NavLink to="/hi" className='nav-link'>About</NavLink>
+              <NavLink to="/" className='nav-link'>About</NavLink>
             </li>
             <li>
             <NavLink to="/store" className='nav-link'>Store</NavLink>
@@ -29,7 +29,7 @@ class App extends Component {
       
    
         </div>
-    <Route path='/hi' exact component={ Home } />
+    <Route path='/' exact component={ Home } />
    
     </Router>
     )
