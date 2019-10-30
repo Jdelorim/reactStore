@@ -7,6 +7,7 @@ import Register from './Components/register/register';
 import Store from './Components/store/store';
 
 class App extends Component {
+ 
   render(){
     return(
     <Router>
