@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './register.css';
 
@@ -141,7 +142,7 @@ export default class Register extends Component {
                      
                      </div>
                      <div className='reg-end'>
-                         <p>Already have an account? Please <a href="/login"> LOGIN</a> </p>
+                         <p>Already have an account? Please <Link to="/login"> LOGIN</Link> </p>
                         
                      </div>
                   
