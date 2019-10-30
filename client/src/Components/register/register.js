@@ -3,11 +3,6 @@ import axios from 'axios';
 import './register.css';
 
 
-const Usernametaken = () => (
-    <div className='hidden'>
-        <h1>Username Taken!</h1>
-    </div>
-)
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -25,40 +20,10 @@ export default class Register extends Component {
         password: '',
         confirmPassword: '',
         newEmail: [],
-        
-
-        
     }
 
 }
-    componentDidMount(){
-        axios.get('/login').then(res=>{
-            if(this.unmounted) return;
-            this.setState({
-                info: res.data
-            });
-            const data = {
-                email: [],
-                firstName: [],
-                lastName: []
-                
-            }
-            for(let i=0;i<this.state.info.length;i++) {
-                data.email.push(this.state.info[i].email);
-            }
 
-            this.setState({
-                newEmail: data.email,
-                newfirstName: data.firstName,
-                newlastName: data.lastName
-            });
-            console.log(`email ${this.state.newEmail}`);
-            console.log(`firstName: ${this.state.newfirstName}`);
-            console.log(`lastName: ${this.state.lastName}`);
-        }).catch(err=>{
-            console.log(err);
-        })
-    }
 
     onChangefirstName(e){
         this.setState({
@@ -106,14 +71,9 @@ export default class Register extends Component {
             return;
         }
         
-        for(var i=0;i<this.state.newEmail.length;i++){
-            if(this.state.newEmail[i] === this.state.email){
-                console.log('it matches');
-                return;
-            }  
-        }
+       
 
-     axios.post('/users/register/', info).then(res=>{
+     axios.post('users/register/', info).then(res=>{
          console.log(res.data);
      })
            
@@ -131,42 +91,45 @@ export default class Register extends Component {
     render(){
         return(
           <div className='about-container'>
-              <div className='about'>
-                 <h2>Register</h2>
+                <div className='reg-title'>
+                <h2>Register To Shop</h2>
+                </div>
+                 
                  <form onSubmit={this.onSubmit}>
+                     <div className='form-holder'>
                      <div className='form-group'>
                          <label>First Name:</label>
                          <input type='text' className='form-control' 
                          value={this.state.firstName}
-                         onChange={this.onChangefirstName} />
+                         onChange={this.onChangefirstName}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Last Name:</label>
                          <input type='text' className='form-control' 
                          value={this.state.lastName}
-                         onChange={this.onChangelastName} />
+                         onChange={this.onChangelastName}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Email:</label>
-                         <input type='text' className='form-control' 
+                         <input type='email' className='form-control' 
                          value={this.state.email}
-                         onChange={this.onChangeEmail} />
+                         onChange={this.onChangeEmail} required />
                      </div>
 
                      <div className='form-group'>
                          <label>Password:</label>
-                         <input type='text' className='form-control' 
+                         <input type='password' className='form-control' 
                          value={this.state.password}
-                         onChange={this.onChangePassword} />
+                         onChange={this.onChangePassword}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Confirm Password:</label>
-                         <input type='text' className='form-control' 
+                         <input type='password' className='form-control' 
                          value={this.state.confirmPassword}
-                         onChange={this.onChangeConfirmPassword} />
+                         onChange={this.onChangeConfirmPassword} required/>
                      </div>
 
                      <div className='form-group'>
@@ -174,9 +137,19 @@ export default class Register extends Component {
                              Sign Me Up!
                          </button>
                      </div>
+                    
+                     
+                     </div>
+                     <div className='reg-end'>
+                         <p>Already have an account? Please <a href="/login"> LOGIN</a> </p>
+                        
+                     </div>
+                  
+                    
                  </form>
-              </div>
+            
           </div>
+          
 
         )
 

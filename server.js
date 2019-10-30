@@ -1,21 +1,18 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const mongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const passport = require('passport');
-
+//const seed = require('./config/seed');
 // const config = require('./config/config.js');
 const PORT = process.env.PORT || 4000;
 const app = express();
 let config;
-
 require('./auth/passport')(passport);
-
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 if (process.env.NODE_ENV !== "production") {
   config = require('./config/config');

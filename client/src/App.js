@@ -4,6 +4,7 @@ import './App.css';
 import About from './Components/about/about'; 
 import Login from './Components/login/login';
 import Register from './Components/register/register';
+import Store from './Components/store/store';
 
 class App extends Component {
   render(){
@@ -37,6 +38,8 @@ class App extends Component {
     
     <Route path='/' exact component={ About } />
     <Route path='/registration' exact component= { Register } />
+    <Route path='/login' exact component= { Login } />
+    <Route path='/store' exact component= { Store } />
    
     </Router>
     )

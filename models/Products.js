@@ -28,7 +28,7 @@ let ProductsSchema = new Schema({
     },
     timeStamp: {
         type: String,
-        default: new Date(Date.now());
+        default: new Date(Date.now())
     }
 
 });

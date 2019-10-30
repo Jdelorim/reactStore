@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
-let CustomerSchema = new Schema({
+let CustomersSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -24,5 +25,13 @@ let CustomerSchema = new Schema({
     }
 });
 
-const Customer = mongoose.model('Customer', CustomerSchema);
-module.exports = Customer;
+CustomersSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+CustomersSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+const Customers = mongoose.model('Customers', CustomersSchema);
+module.exports = Customers;

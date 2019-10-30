@@ -1,0 +1,37 @@
+
+.form-group label{
+    color: white;
+}
+.form-group button{
+    padding: 20px;
+    background-color: rgba(0,128,128,0.2);
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+}
+.form-control{
+    margin-bottom: 15px;
+}
+.form-holder{
+    margin: 0 auto;
+    width: 110px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.reg-end{
+    margin-top: 20px;
+   margin-left: 330px;
+    margin-bottom: 0px;
+    display: inline-block;
+}
+.reg-end a{
+    text-decoration: none;
+    color: white;
+    font-style: bold;
+}
+.reg-title h2{
+    text-align: center;
+    color: white;
+    font-style: bold;
+}
