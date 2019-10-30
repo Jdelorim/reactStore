@@ -1,0 +1,14 @@
+.login-control {
+    margin-left: 200px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.log-out {
+    margin-left: 200px;
+    color: white;
+    font-size: 30px;
+    font-display: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+}

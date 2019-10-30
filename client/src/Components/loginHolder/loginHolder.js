@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import './loginHolder.css';
+import axios from 'axios';
+export default class LoginHolder extends Component {
+   constructor(props){
+       super(props);
+       this.state = {
+           logOut: false,
+           redirectTo: null
+       }
+   }
+   handleClick = () => {
+        this.setState({
+            logOut: true,
+        }, this.logOut);
+   }
+
+   logOut = () => {
+       console.log('in herrr')
+       console.log(this.state.logOut);
+    if(this.state.logOut === true) {
+        axios.get('users/logout').then(res=>{
+            if(res.status === 200) {
+                console.log('logoout successful');
+                this.setState({
+                    redirectTo: '/login'
+                })
+
+            }
+        }).catch(err=>{
+            console.log('logout unsecessful ' + err);
+        })
+
+    }
+   }
+    render() {
+        if(this.state.redirectTo) {
+            return<Redirect to={{ pathname: this.state.redirectTo }} />
+        }
+        return(
+            <div>
+            <div className='login-control'>Welcome {this.props.userName}, you are logged in! </div>
+            <div className='log-out' onClick={this.handleClick}>LOGOUT!</div>
+            </div>
+        )
+    }
+}

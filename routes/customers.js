@@ -52,6 +52,11 @@ module.exports = (app) => {
        } else {
            res.json({ user: null });
        }
+   });
+
+   storeRoutes.get('/logout',(req,res) => {
+    req.logout();
+    res.json({msg: 'you are logged out'})
    })
     
     app.use('/', regRoutes);
