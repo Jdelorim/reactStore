@@ -6,7 +6,8 @@ module.exports = passport => {
     
     passport.use(
         new localStrategy({usernameField: 'email'}, (email, password, done)=>{
-            Customers.findOne({email: email}).then(user => {
+            let lowEmail = email.toLowerCase();
+            Customers.findOne({email: lowEmail}).then(user => {
                 if(!user) {
                     return done(null, false, {message: 'email is not registered'});
                 }

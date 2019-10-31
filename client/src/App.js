@@ -5,7 +5,8 @@ import About from './Components/about/about';
 import Login from './Components/login/login';
 import Register from './Components/register/register';
 import Store from './Components/store/store';
-
+import Profile from './Components/profile/profile';
+import Cart from './Components/cart/cart';
 class App extends Component {
   constructor(props){
     super(props);
@@ -29,26 +30,19 @@ class App extends Component {
             <NavLink to="/store" className='nav-link'>Store</NavLink>
             </li>
             <li>
-            <NavLink to="/profile" className='nav-link'>Profile</NavLink>
-            </li>
-            <li>
             <NavLink to="/registration" className='nav-link'>Register</NavLink>
             </li>
           </ul>
-         
-         
-          
-        </div>
-    
-      
-   
-        </div>
+         </div>
+    </div>
     
     <Route path='/' exact component={ About } />
     <Route path='/registration' exact component= { Register } />
     <Route path='/login' exact component= { Login } />
     <Route path='/store' exact component= { Store } />
-   
+    <Route path='/profile' exact component={ Profile } />
+    <Route path='/cart' exact component={ Cart } />
+
     </Router>
     )
   }

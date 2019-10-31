@@ -1,0 +1,14 @@
+.cart-container{
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgba(0,128,128,0.8);
+    border: 3px solid white;
+    border-radius: 25px;
+    margin-bottom: 30px;
+
+}
+.cart h2{
+    text-align: center;
+    color: white;
+
+}

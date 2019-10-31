@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import './loginHolder.css';
 import axios from 'axios';
+
+
 export default class LoginHolder extends Component {
    constructor(props){
        super(props);
@@ -39,10 +41,17 @@ export default class LoginHolder extends Component {
             return<Redirect to={{ pathname: this.state.redirectTo }} />
         }
         return(
-            <div>
-            <div className='login-control'>Welcome {this.props.userName}, you are logged in! </div>
-            <div className='log-out' onClick={this.handleClick}>LOGOUT!</div>
+            
+            <div className='login-container'>
+            <div className='login-control'>Welcome <b>{this.props.userName}</b>, you are logged in! </div>
+            <ul>
+                <li><Link to='/profile' className='user-links'>Profile</Link></li>
+                <li><Link to='/cart'  className='user-links'>Shopping Cart</Link></li>
+                <li><div className='user-links' onClick={this.handleClick}>Logout</div></li>
+            </ul>
+            
             </div>
+
         )
     }
 }

@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './store.css';
 import axios from 'axios';
-import Records from '../records/records';
 import LoginHolder from '../loginHolder/loginHolder';
-export default class Store extends Component {
+import './profile.css';
+export default class Profile extends Component {
     constructor(props) {
-        super(props);
-
+        super(props)
         this.state = {
-           artistName: 'david bowie',
-           albumName: 'space oddity', 
-           redirectTo: '',
-           userName: ''
+            redirectTo: ''
         }
-       
-     
     }
-
-
     componentDidMount(){
-        this.checkLoggedIn('/login');
+        this.checkLoggedIn('/login')
     }
 
     checkLoggedIn = (route) =>{
@@ -42,33 +33,23 @@ export default class Store extends Component {
             console.log('err '+ err);
         })
     }
-
-    redirectToLogin = () => {
-        this.props.navigation.push('/login');
-    }
-
     render() {
         if(this.state.redirectTo) {
-           
             return <Redirect to={{ pathname: this.state.redirectTo }} />
-            
-         } else {
-           
+        } else {
             return(
+                <div className='loginHolder'>
+                    <LoginHolder userName={this.state.userName} />
                 
-               <div className='loginHolder'>
-                   <LoginHolder userName={this.state.userName} />
-               
-               
-                <div className='about-container'>
-                    <div className='reg-title'>
-                        <h2>STORE</h2>
-                        <Records artistName={this.state.artistName} albumName={this.state.albumName} />
+                <div className='profile-container'>
+                    <div className='profile'>
+                        <h2>{this.state.userName} Profile</h2>
+                    </div>
                     </div>
                 </div>
-                </div>
             )
+
         }
-       
+    
     }
 }

@@ -3,11 +3,9 @@ import { Redirect } from 'react-router-dom';
 import './login.css';
 import axios from 'axios';
 
-class Login extends Component {
+export default class Login extends Component {
     constructor(props){
         super(props);
-      
-
         this.state = {
             email: '',
             password: '',
@@ -87,4 +85,4 @@ class Login extends Component {
  } 
 
 
- export default Login;
+ 

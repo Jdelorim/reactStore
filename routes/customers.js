@@ -31,11 +31,11 @@ module.exports = (app) => {
 });
 
     storeRoutes.route('/login').post((req, res, next)=>{   
-        const {email, password} = req.body;
+        let {email, password} = req.body;
+        email = req.body.email.toLowerCase();
         console.log(email, password);
         next();
-    }, passport.authenticate('local'),
-    (req, res) => {
+    }, passport.authenticate('local'),(req, res) => {
         console.log('logged in', req.user);
         var userInfo = {
             username: req.user.username
