@@ -41,6 +41,7 @@ connection.once('open', function() {
 })
 
 require('./routes/customers.js')(app);
+require('./routes/store.js')(app);
 
 
 

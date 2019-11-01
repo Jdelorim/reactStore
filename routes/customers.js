@@ -1,13 +1,13 @@
-const storeRoutes = require('express').Router();
-const regRoutes = require('express').Router();
-let Customers = require('../models/Customers');
+'use strict'
+const userRoutes = require('express').Router();
+const Customers = require('../models/Customers');
 const passport = require('passport');
-const {ensureAuthenticated} = require('../auth/auth');
+
 
 
 module.exports = (app) => {
     
-    storeRoutes.route('/register').post((req,res) => {
+    userRoutes.route('/register').post((req,res) => {
 
         console.log(`data coming back: ${JSON.stringify(req.body, null, 3)}`);
         const { firstName, lastName, email, password } = req.body;
@@ -30,7 +30,7 @@ module.exports = (app) => {
     })
 });
 
-    storeRoutes.route('/login').post((req, res, next)=>{   
+    userRoutes.route('/login').post((req, res, next)=>{   
         let {email, password} = req.body;
         email = req.body.email.toLowerCase();
         console.log(email, password);
@@ -44,9 +44,9 @@ module.exports = (app) => {
     }
     
     );
-   storeRoutes.get('/check',(req,res,next) => {
+   userRoutes.get('/check',(req,res,next) => {
        console.log('hitting here');
-       console.log(req.user);
+    //    console.log(req.user);
        if(req.user) {
            res.json({ user: req.user });
        } else {
@@ -54,11 +54,11 @@ module.exports = (app) => {
        }
    });
 
-   storeRoutes.get('/logout',(req,res) => {
+   userRoutes.get('/logout',(req,res) => {
     req.logout();
     res.json({msg: 'you are logged out'})
    })
     
-    app.use('/', regRoutes);
-    app.use('/users', storeRoutes);
+    
+    app.use('/users', userRoutes);
 }

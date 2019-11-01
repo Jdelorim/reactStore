@@ -1,0 +1,14 @@
+.store-container{
+    width: 80%;
+    margin: 0 auto;
+   height: 600px;
+    background-color: rgba(0,128,128,0.8);
+    border: 3px solid white;
+    border-radius: 25px;
+   
+  }
+  .store-container h2{
+      text-align: center;
+      color: white;
+
+  }

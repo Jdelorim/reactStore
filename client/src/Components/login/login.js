@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import './login.css';
 import axios from 'axios';
 
@@ -41,7 +41,7 @@ export default class Login extends Component {
                 this.setState({
                     redirectTo: '/store'
                 }) 
-            } 
+            }
         }).catch(err=>{
             console.log('login failer ' + err);
         })
@@ -76,6 +76,9 @@ export default class Login extends Component {
                              </div>
                          </div>
                      </form>
+                     <div className='reg-end'>
+                         <p>Already have an account? Please <Link to="/registration">Register</Link> </p>
+                    </div>
                 </div>
              )
 

@@ -8,13 +8,6 @@ import Store from './Components/store/store';
 import Profile from './Components/profile/profile';
 import Cart from './Components/cart/cart';
 class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      
-    }
-  }
  
   render(){
     return(
@@ -30,7 +23,7 @@ class App extends Component {
             <NavLink to="/store" className='nav-link'>Store</NavLink>
             </li>
             <li>
-            <NavLink to="/registration" className='nav-link'>Register</NavLink>
+            <NavLink to="/login" className='nav-link'>Login</NavLink>
             </li>
           </ul>
          </div>

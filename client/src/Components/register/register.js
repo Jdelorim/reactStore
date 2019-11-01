@@ -142,7 +142,7 @@ export default class Register extends Component {
                      
                      </div>
                      <div className='reg-end'>
-                         <p>Already have an account? Please <Link to="/login"> LOGIN</Link> </p>
+                         <p>Already have an account? Please <Link to="/login">Login</Link> </p>
                         
                      </div>
                   

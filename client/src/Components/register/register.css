@@ -1,7 +1,10 @@
 
 .form-group label{
     color: white;
+    font-size: 14px;
+    white-space: nowrap;
 }
+
 .form-group button{
     padding: 20px;
     background-color: rgba(0,128,128,0.2);
@@ -11,19 +14,23 @@
 }
 .form-control{
     margin-bottom: 15px;
+    width: 140px;
 }
 .form-holder{
     margin: 0 auto;
-    width: 110px;
+    width:140px;
     padding-bottom: 0px;
     margin-bottom: 0px;
 }
 
-.reg-end{
+.reg-end p{
     margin-top: 20px;
    margin-left: 330px;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     display: inline-block;
+    border: 1px solid white;
+    padding: 10px;
+    
 }
 .reg-end a{
     text-decoration: none;

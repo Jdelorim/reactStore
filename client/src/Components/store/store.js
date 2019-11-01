@@ -4,23 +4,27 @@ import './store.css';
 import axios from 'axios';
 import Records from '../records/records';
 import LoginHolder from '../loginHolder/loginHolder';
+
+import './store.css';
 export default class Store extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-           artistName: 'david bowie',
-           albumName: 'space oddity', 
+           artistName: [],
+           albumName: [], 
+           catPrice: [],
+           imgRef: [],
            redirectTo: '',
-           userName: ''
+           userName: '',
+           data: []
+           
+          
         }
-       
-     
     }
-
-
     componentDidMount(){
         this.checkLoggedIn('/login');
+        this.getAlbums();
     }
 
     checkLoggedIn = (route) =>{
@@ -47,6 +51,33 @@ export default class Store extends Component {
         this.props.navigation.push('/login');
     }
 
+    getAlbums = () => {
+        
+        let artist = [];
+        let album = [];
+        axios.get('/store/products').then(res => {
+            console.log(JSON.stringify(res,null, 3));
+           
+                console.log(res.data);
+              
+                this.setState({
+                    artistName: res.data.artistName,
+                    data: [...res.data]
+                   
+                })
+                console.log('-----------' + JSON.stringify(this.state.data, null, 3));
+                
+               
+               
+            
+           
+        
+            
+            
+
+        })
+    }
+
     render() {
         if(this.state.redirectTo) {
            
@@ -55,18 +86,36 @@ export default class Store extends Component {
          } else {
            
             return(
-                
+                <div>
+               
+                    
                <div className='loginHolder'>
                    <LoginHolder userName={this.state.userName} />
                
                
-                <div className='about-container'>
-                    <div className='reg-title'>
+                <div className='store-container'>
+                    <div className='store-title'>
                         <h2>STORE</h2>
-                        <Records artistName={this.state.artistName} albumName={this.state.albumName} />
+                        <div className='record-wrapper'>
+                       
+                      {(this.state.data).map(i=>
+                    <Records artistName = {i.artistName} albumName = {i.albumName} 
+                             id = {i._id} quantity = {i.quantity} catPrice = {i.catPrice}
+                             imgRef = {i.imgReg}
+
+                    />
+                     )}
+                
+              
+                        
+                        </div>
                     </div>
                 </div>
+                
                 </div>
+                </div>
+                
+               
             )
         }
        
