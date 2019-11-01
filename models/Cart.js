@@ -11,7 +11,11 @@ let CartSchema = new Schema({
         required: true
     },
     products: [{
-        aristName: {
+        id: {
+            type: String,
+            required: true
+        },
+        artistName: {
             type: String,
             required: true
         },
@@ -26,12 +30,16 @@ let CartSchema = new Schema({
         pricePerUnit: {
             type: String,
             required: true
+        },
+        imgReg: {
+            type: String,
+            required: true
         }
     }],
     timeStamp: {
         type: String,
         required: true,
-        default: new DataCue(Date.now())
+        default: new Date(Date.now())
     }
 });
 

@@ -51,12 +51,17 @@ export default class Records extends Component {
 
     addToCart = () => {
         console.log(this.state.id);
-        const id = this.state.id;
-        axios.post('/store/addToCart', id).then(res=>{
+        const data = {
+           id: this.state.id
+        }
+
+        axios.post('/store/addToCart', data).then(res=>{
             if(res.status === 200) {
                console.log('Added to Cart!');
                //finish backend routes 
             }
+        }).catch(err=>{
+            console.log(err);
         })
     }
 

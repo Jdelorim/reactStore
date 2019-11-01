@@ -32,7 +32,7 @@ app.use(passport.session());
 
 app.use(flash());
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/reactStore', { useNewUrlParser: true , useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/reactStore', { useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify: false });
 
 const connection = mongoose.connection;
 
