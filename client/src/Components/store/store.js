@@ -53,8 +53,7 @@ export default class Store extends Component {
 
     getAlbums = () => {
         
-        let artist = [];
-        let album = [];
+       
         axios.get('/store/products').then(res => {
             console.log(JSON.stringify(res,null, 3));
            

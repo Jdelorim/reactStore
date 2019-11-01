@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './records.css';
+import axios from 'axios';
 
 export default class Records extends Component {
     constructor(props){
@@ -7,8 +8,9 @@ export default class Records extends Component {
         
        this.state ={
            count: 1, 
-           quanity: this.props.quantity,
+           quantity: this.props.quantity,
            trig: false,
+           id: this.props.id
 
        }
     
@@ -18,7 +20,7 @@ export default class Records extends Component {
       let countUp = this.state.count + 1;
       this.setState({
         count: countUp
-      },this.countCatcher, console.log(this.state.trig))
+      },this.countCatcher, console.log(this.state.count, this.state.quantity))
     }
     
     countDown = () =>{
@@ -30,9 +32,10 @@ export default class Records extends Component {
 
       countCatcher = () => {
           let newCount = this.state.count;
-        if(newCount >= this.state.quanity) {
+          
+        if(newCount >= this.state.quantity) {
             this.setState({
-                count: this.state.quanity,
+                count: this.state.quantity,
                 trig: true
             },console.log(this.state.trig))
         } else if(newCount <= 1) {
@@ -46,7 +49,16 @@ export default class Records extends Component {
         }
     }
 
-    
+    addToCart = () => {
+        console.log(this.state.id);
+        const id = this.state.id;
+        axios.post('/store/addToCart', id).then(res=>{
+            if(res.status === 200) {
+               console.log('Added to Cart!');
+               //finish backend routes 
+            }
+        })
+    }
 
     render() {
         return(
@@ -62,13 +74,15 @@ export default class Records extends Component {
                     <img name={this.props.artistName} src={this.props.imgRef}
                         alt={this.props.artistName} />
                     <div className='record-cart'>
-                        <button className='cart-btn' >Add to Cart</button>
+                        
+                        
+                        <button  className='cart-btn' onClick={this.addToCart}>Add to Cart</button>
+                    
                         <button className='number-btn' onClick={this.countDown}>-</button>
                         <button className='number-btn' onClick={this.countUp}>+</button>
                         <input type='number' className='cart-quant' value={this.state.count} readOnly />
-                        <div>{this.props.quantity}</div>
                     </div>
-                    <div className={this.state.trig ? 'show-me'  : 'hide-me'}>Only {this.state.quanity} in stock!</div>
+                    <div className={this.state.trig ? 'show-me'  : 'hide-me'}>Only {this.state.quantity} in stock!</div>
                 </div>
             </div>
            
