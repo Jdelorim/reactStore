@@ -8,7 +8,8 @@ module.exports = app => {
     storeRoutes.route('/products').get((req, res)=>{
         console.log('in products route');
         console.log(req.user);
-        Products.find({}).then(data => {
+        
+        Products.find({}).exec().then(data => {
             if(data) {
                 console.log(data);
                 return res.send(data);
@@ -19,54 +20,68 @@ module.exports = app => {
     });
         
     storeRoutes.route('/addToCart').post((req,res)=>{
-        console.log(req.user, req.body.id);
+        console.log(req.user, req.body.id, req.body.quantity);
         
         const userName = req.user.firstName + ' ' + req.user.lastName;
         
         let storeItem = {};
-        Products.findById(req.body.id).then(data=>{
-            if(!data) {
-                // console.log('did not add to cart');
-            } else {
-                // console.log('NEW DATA: ' + data);
-                storeItem = data;
-            }
+        let markUp = '';
+        Products.findById(req.body.id).exec().then(data=>{
+           
+                if(data){
+                    markUp = data.markup;
+                    storeItem = data;
+                }                
+            
         }).catch(err=>{
             console.log(err);
         })
 
-        Cart.findOne({userName: userName}).then(data=>{
+        Cart.findOne({userName: userName}).exec().then(data=>{
             const products = {
                 id: storeItem.id,
                 artistName: storeItem.artistName,
                 albumName: storeItem.albumName,
-                quantity: storeItem.quantity,
+                quantity: req.body.quantity,
                 pricePerUnit: storeItem.catPrice,
-                imgReg: storeItem.imgReg
+                imgRef: storeItem.imgRef
             }
-            console.log('------' +JSON.stringify(products, null,3))
+            // console.log('------' +JSON.stringify(products, null,3))
             if(!data) {
-                // console.log('in cart' + storeItem);
+                const tP = (products.quantity * products.pricePerUnit) * markUp;
+                console.log('totalPrice: ' + tP);
                 const cartItem = {
                     userName: userName,
                     userEmail: req.user.email,
-                    products: products
+                    products: products,
+                    totalPrice: tP
                 }
+               
                 const newItemForCart = new Cart(cartItem);
-                newItemForCart.save();
+                newItemForCart.save().then(result=>{
+                    console.log('its saving it ' +result);
+                }).catch(err=>{
+                    console.log(err);
+                })
                 return;
             } else {
-               for(const i in data.products) {
-                   if(products === data.products[i]){
-                       console.log('its a match');
-                       //prevent multiple items from going in and if so ask the user if they would like to add to quantity
-                   }
-               }
-              
-               Cart.findOneAndUpdate({userName: userName},{$push: {products: products}}).then(data=>{
-                //    console.log('in the cart: ' + data);
+                if(data) {
+                    for(var i in data.products) {
+                        if(products.id === data.products[i].id){
+                          return res.status(200).send({'msg':'already in cart'});
+                        } else {
+                       
+                            Cart.findOneAndUpdate({userName: userName},{$push: {products: products}}).exec().then(data=>{
+                                //    console.log('in the cart: ' + data);
+                
+                               })
+                        }
+                    }
+                   
+                 
 
-               })
+                }
+             
                
 
             }

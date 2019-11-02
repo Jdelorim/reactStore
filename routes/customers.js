@@ -19,7 +19,8 @@ module.exports = (app) => {
         const newCustomer = new Customers(req.body);
         newCustomer.email = req.body.email.toLowerCase();
          newCustomer.password = newCustomer.generateHash(req.body.password);
-        newCustomer.save().then(() =>{
+        newCustomer.save().then((result) =>{
+            console.log(result);
             return res.send({
                 success: true,
                 message: 'signed up success!'

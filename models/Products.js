@@ -22,7 +22,7 @@ let ProductsSchema = new Schema({
         type: String,
         required: true
     },
-    imgReg: {
+    imgRef: {
         type: String,
         required: true
     },

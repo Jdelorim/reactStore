@@ -31,11 +31,15 @@ let CartSchema = new Schema({
             type: String,
             required: true
         },
-        imgReg: {
+        imgRef: {
             type: String,
             required: true
         }
     }],
+    totalPrice: {
+        type: String,
+        required: true,
+    },
     timeStamp: {
         type: String,
         required: true,

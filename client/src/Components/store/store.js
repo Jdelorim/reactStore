@@ -52,18 +52,13 @@ export default class Store extends Component {
     }
 
     getAlbums = () => {
-        
-       
         axios.get('/store/products').then(res => {
             console.log(JSON.stringify(res,null, 3));
-           
-                console.log(res.data);
-              
+            console.log(res.data);
                 this.setState({
                     artistName: res.data.artistName,
                     data: [...res.data]
-                   
-                })
+                });
                 console.log('-----------' + JSON.stringify(this.state.data, null, 3));
                 
                
@@ -100,7 +95,7 @@ export default class Store extends Component {
                       {(this.state.data).map(i=>
                     <Records artistName = {i.artistName} albumName = {i.albumName} 
                              id = {i._id} quantity = {i.quantity} catPrice = {i.catPrice}
-                             imgRef = {i.imgReg}
+                             imgRef = {i.imgRef}
 
                     />
                      )}
