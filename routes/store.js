@@ -8,11 +8,33 @@ module.exports = app => {
     storeRoutes.route('/products').get((req, res)=>{
         console.log('in products route');
         console.log(req.user);
-        
+        let newData = {};
+        let arr = [];
+        let holder = {};
         Products.find({}).exec().then(data => {
+           console.log('-----'+data);
+           for(var i in data) {
+              newData = {
+                id: data[i]._id,
+                artistName: data[i].artistName,
+                albumName: data[i].albumName,
+                quantity: data[i].quantity,
+                imgRef: data[i].imgRef,
+                price: (data[i].catPrice * data[i].markup).toFixed(2)
+            }
+            arr.push(newData);
+            holder = {
+                data: arr
+            }
+           
+           }
+           console.log('BNEW DATA: ' + JSON.stringify(holder, null, 3));
+           
+           
+            
             if(data) {
-                console.log(data);
-                return res.send(data);
+                // console.log(newData);
+                 return res.send(arr);
             }
         }).catch(err=>{
             if(err) return res.status(400).send("Can't find products");
@@ -26,9 +48,12 @@ module.exports = app => {
         
         let storeItem = {};
         let markUp = '';
+        let catPrice = '';
+        let ppu ='';
         Products.findById(req.body.id).exec().then(data=>{
            
                 if(data){
+                    catPrice = data.catPrice;
                     markUp = data.markup;
                     storeItem = data;
                 }                
@@ -38,23 +63,24 @@ module.exports = app => {
         })
 
         Cart.findOne({userName: userName}).exec().then(data=>{
+            ppu = (catPrice * markUp).toFixed(2)
             const products = {
                 id: storeItem.id,
                 artistName: storeItem.artistName,
                 albumName: storeItem.albumName,
                 quantity: req.body.quantity,
-                pricePerUnit: storeItem.catPrice,
+                pricePerUnit: ppu,
                 imgRef: storeItem.imgRef
             }
             // console.log('------' +JSON.stringify(products, null,3))
             if(!data) {
-                const tP = (products.quantity * products.pricePerUnit) * markUp;
-                console.log('totalPrice: ' + tP);
+                
+                
                 const cartItem = {
                     userName: userName,
                     userEmail: req.user.email,
                     products: products,
-                    totalPrice: tP
+                    totalPrice: ppu
                 }
                
                 const newItemForCart = new Cart(cartItem);
@@ -66,6 +92,7 @@ module.exports = app => {
                 return;
             } else {
                 if(data) {
+                    //add price per product
                     for(var i in data.products) {
                         if(products.id === data.products[i].id){
                           return res.status(200).send({'msg':'already in cart'});

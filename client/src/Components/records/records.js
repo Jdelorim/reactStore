@@ -55,6 +55,7 @@ export default class Records extends Component {
         const data = {
            id: this.state.id,
            quantity: this.state.count
+           
         }
 
         axios.post('/store/addToCart', data).then(res=>{
@@ -80,7 +81,7 @@ export default class Records extends Component {
                     <div><b>Album:</b> {this.props.albumName}</div>
                 </div>
                 <div className='record-price'>
-                <div><b>Price:</b> ${this.props.catPrice}</div>
+                <div><b>Price:</b> ${this.props.price}</div>
                 </div>
                     <img name={this.props.artistName} src={this.props.imgRef}
                         alt={this.props.artistName} />

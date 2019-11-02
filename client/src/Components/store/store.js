@@ -57,7 +57,7 @@ export default class Store extends Component {
             console.log(res.data);
                 this.setState({
                     artistName: res.data.artistName,
-                    data: [...res.data]
+                      data: [...res.data]
                 });
                 console.log('-----------' + JSON.stringify(this.state.data, null, 3));
                 
@@ -94,7 +94,7 @@ export default class Store extends Component {
                        
                       {(this.state.data).map(i=>
                     <Records artistName = {i.artistName} albumName = {i.albumName} 
-                             id = {i._id} quantity = {i.quantity} catPrice = {i.catPrice}
+                             id = {i.id} quantity = {i.quantity} price = {i.price}
                              imgRef = {i.imgRef}
 
                     />
