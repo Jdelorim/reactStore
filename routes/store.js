@@ -42,6 +42,11 @@ module.exports = app => {
     });
         
     storeRoutes.route('/addToCart').post((req,res)=>{
+        if(!req.user) {
+            return res.send({ 
+                msg: 'you are logged out!'
+            });
+        }
         console.log(req.user, req.body.id, req.body.quantity);
         
         const userName = req.user.firstName + ' ' + req.user.lastName;
@@ -49,33 +54,33 @@ module.exports = app => {
         let storeItem = {};
         let markUp = '';
         let catPrice = '';
-        let ppu ='';
+        let products = {};
+        
         Products.findById(req.body.id).exec().then(data=>{
-           
                 if(data){
                     catPrice = data.catPrice;
                     markUp = data.markup;
                     storeItem = data;
-                }                
-            
+                }
         }).catch(err=>{
             console.log(err);
-        })
+        });
 
-        Cart.findOne({userName: userName}).exec().then(data=>{
-            ppu = (catPrice * markUp).toFixed(2)
-            const products = {
+        Cart.findOne({userName}).then(data => {
+            let ppu ='';
+            ppu = (catPrice * markUp).toFixed(2);
+
+             products = {
                 id: storeItem.id,
                 artistName: storeItem.artistName,
                 albumName: storeItem.albumName,
                 quantity: req.body.quantity,
                 pricePerUnit: ppu,
                 imgRef: storeItem.imgRef
-            }
-            // console.log('------' +JSON.stringify(products, null,3))
-            if(!data) {
-                
-                
+             }
+             
+             if(!data) {
+                console.log('create cart');
                 const cartItem = {
                     userName: userName,
                     userEmail: req.user.email,
@@ -85,39 +90,40 @@ module.exports = app => {
                
                 const newItemForCart = new Cart(cartItem);
                 newItemForCart.save().then(result=>{
-                    console.log('its saving it ' +result);
+                    return res.send(result);
                 }).catch(err=>{
-                    console.log(err);
-                })
-                return;
-            } else {
-                if(data) {
-                    //add price per product
-                    for(var i in data.products) {
-                        if(products.id === data.products[i].id){
-                          return res.status(200).send({'msg':'already in cart'});
-                        } else {
-                       
-                            Cart.findOneAndUpdate({userName: userName},{$push: {products: products}}).exec().then(data=>{
-                                //    console.log('in the cart: ' + data);
+                   return res.send(err);
+                });
+            } 
+            if(data) {
                 
-                               })
-                        }
-                    }
-                   
-                 
-
-                }
-             
+                for(var i =0;i<data.products.length;i++) {
+                    console.log('new product req ' + products.id);
+                    console.log('whats already in DB ' + data.products[i].id);
                
-
-            }
-        }).catch(err=>{
-            console.log(err);
+                    if(products.id === data.products[i].id){
+                        console.log('already in shopping cart');
+                        return res.send({
+                            msg: 'Aleady in cart'
+                        })
+                    } 
+                    console.log('is it hitting here if new');
+                }
+                let newTotalPrice = ((Number(products.pricePerUnit) * Number(products.quantity)) + Number(data.totalPrice)).toFixed(2);
+                let priceToString = newTotalPrice.toString();
+                console.log('newPrice: ' + priceToString);
+                Cart.findOneAndUpdate({userName: userName}, {$set: {totalPrice: priceToString}, $push:{products: products}},{new: true})
+                    .exec().then(data => {
+                        console.log('what came in the cart' + data);
+                        return;
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+                    
+                } 
+            })  
         })
-          
 
-    })
     
 
 
