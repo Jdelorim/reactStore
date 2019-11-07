@@ -47,7 +47,7 @@ module.exports = (app) => {
     );
    userRoutes.get('/check',(req,res,next) => {
        console.log('hitting here');
-    //    console.log(req.user);
+      console.log(req.user);
        if(req.user) {
            res.json({ user: req.user });
        } else {
@@ -58,6 +58,19 @@ module.exports = (app) => {
    userRoutes.get('/logout',(req,res) => {
     req.logout();
     res.json({msg: 'you are logged out'})
+   });
+
+   userRoutes.post('/update',(req,res)=>{
+       const {firstName, lastName, email} = req.body;
+       
+       Customers.findOneAndUpdate({email: email},
+        {$and: [{firstName: firstName}, {lastName: lastName}, {email: email}]},{new: true})
+       .exec().then(data => {
+        console.log(data);
+       }).catch(err=>{
+           console.log(err);
+       })
+        
    })
     
     

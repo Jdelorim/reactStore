@@ -60,16 +60,7 @@ export default class Store extends Component {
                       data: [...res.data]
                 });
                 console.log('-----------' + JSON.stringify(this.state.data, null, 3));
-                
-               
-               
-            
-           
-        
-            
-            
-
-        })
+        });
     }
 
     render() {
@@ -93,7 +84,7 @@ export default class Store extends Component {
                         <div className='record-wrapper'>
                        
                       {(this.state.data).map(i=>
-                    <Records artistName = {i.artistName} albumName = {i.albumName} 
+                    <Records key={i.id} artistName = {i.artistName} albumName = {i.albumName} 
                              id = {i.id} quantity = {i.quantity} price = {i.price}
                              imgRef = {i.imgRef}
 

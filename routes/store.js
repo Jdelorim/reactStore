@@ -33,7 +33,7 @@ module.exports = app => {
            
             
             if(data) {
-                // console.log(newData);
+               
                  return res.send(arr);
             }
         }).catch(err=>{
@@ -90,7 +90,9 @@ module.exports = app => {
                
                 const newItemForCart = new Cart(cartItem);
                 newItemForCart.save().then(result=>{
-                    return res.send(result);
+                    return res.send({
+                        added: 'Item added!'
+                    });
                 }).catch(err=>{
                    return res.send(err);
                 });
@@ -115,7 +117,9 @@ module.exports = app => {
                 Cart.findOneAndUpdate({userName: userName}, {$set: {totalPrice: priceToString}, $push:{products: products}},{new: true})
                     .exec().then(data => {
                         console.log('what came in the cart' + data);
-                        return;
+                        return res.send({
+                            added: 'Item added!'
+                        });
                     }).catch(err=>{
                         console.log(err);
                     })

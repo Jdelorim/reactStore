@@ -7,7 +7,10 @@ export default class Profile extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            redirectTo: ''
+            redirectTo: '',
+            firstName: '',
+            lastName: '',
+            email: ''
         }
     }
     componentDidMount(){
@@ -20,9 +23,14 @@ export default class Profile extends Component {
             console.log(JSON.stringify(res, null, 3));
             if(res.data.user){
                 console.log('user detected' + res.data.user.firstName);
+               
                 this.setState({
-                    userName: res.data.user.firstName + ' ' + res.data.user.lastName
-                })
+                    userName: res.data.user.firstName + ' ' + res.data.user.lastName,
+                    firstName: res.data.user.firstName,
+                    lastName: res.data.user.lastName,
+                    email: res.data.user.email
+                });
+                
             } else {
                 console.log('hitting null');
                 this.setState({
@@ -33,6 +41,27 @@ export default class Profile extends Component {
             console.log('err '+ err);
         })
     }
+  
+
+    updateUser = () => {
+        let data = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email
+        }
+        axios.post('/users/update', data ).then(res =>{
+            console.log(res);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+
+    deleteUser = () => {
+
+    }
+
+
     render() {
         if(this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -44,9 +73,31 @@ export default class Profile extends Component {
                 <div className='profile-container'>
                     <div className='profile'>
                         <h2>{this.state.userName} Profile</h2>
-                    </div>
-                    </div>
+                        <form onSubmit={this.updateUser}>
+                            <div className='form-holder'>
+                            <div className='form-group'>
+                                <label>First Name:</label>
+                                <input type='text' className='form-control' value={this.state.firstName} />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Last Name:</label>
+                                <input type='text' className='form-control' value={this.state.lastName} />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Email:</label>
+                                <input type='text' className='form-control' value={this.state.email} />
+                            </div>
+                            <div className='form-group'>
+                                <button type='submit'>UPDATE</button>
+                                <button type='submit' onclick={this.deleteUser}>DELETE</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
             )
 
         }

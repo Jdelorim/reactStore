@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react';
 import './records.css';
 import axios from 'axios';
@@ -11,7 +13,8 @@ export default class Records extends Component {
            quantity: this.props.quantity,
            trig: false,
            id: this.props.id,
-           inCart: false
+           inCart: false,
+           added: false
         }
     }
 
@@ -37,7 +40,8 @@ export default class Records extends Component {
             this.setState({
                 count: this.state.quantity,
                 trig: true,
-                inCart: false
+                inCart: false,
+                added: false
             },console.log(this.state.trig))
         } else if(newCount <= 1) {
             this.setState({
@@ -65,6 +69,15 @@ export default class Records extends Component {
                    this.setState({
                        inCart: true
                    }, console.log('in cart: ' + this.state.inCart));
+               } else if(res.data.added) {
+                   this.setState({
+                       added: true
+                   }, console.log('added' +  this.state.added));
+               } else {
+                   this.setState({
+                        added: false,
+                        inCart: false
+                   })
                }
             }
         }).catch(err=>{
@@ -96,6 +109,7 @@ export default class Records extends Component {
                     </div>
                     <div className={this.state.trig ? 'show-me'  : 'hide-me'}>Only <b style={{color: 'white'}}>{this.state.quantity}</b> in stock!</div>
                     <div className={this.state.inCart ? 'show-me'  : 'hide-me'}>Item already in Shopping Cart. You can edit your order in Shopping Cart.</div>
+                    <div className={this.state.added ? 'show-me'  : 'hide-me'}>Item successfully added!</div>
                 </div>
             </div>
            
