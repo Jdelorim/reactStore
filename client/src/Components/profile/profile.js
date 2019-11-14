@@ -41,9 +41,25 @@ export default class Profile extends Component {
             console.log('err '+ err);
         })
     }
-  
+    onChangeFirstName = (e) => {
+        this.setState({
+            firstName: e.target.value
+        })
+    }
+    onChangeLastName = e => {
+        this.setState({
+            lastName: e.target.value
+        })
+    }
+    onChangeEmail = e =>{
+        this.setState({
+            email: e.target.value
+        })
+    }
 
-    updateUser = () => {
+    updateUser = (e) => {
+        e.preventDefault();
+
         let data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
@@ -57,8 +73,19 @@ export default class Profile extends Component {
         })
     }
 
-    deleteUser = () => {
-
+    deleteUser = (e) => {
+        e.preventDefault();
+        let data = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email
+        }
+        axios.post('/users/delete', data ).then(res =>{
+            console.log(res);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     }
 
 
@@ -77,20 +104,20 @@ export default class Profile extends Component {
                             <div className='form-holder'>
                             <div className='form-group'>
                                 <label>First Name:</label>
-                                <input type='text' className='form-control' value={this.state.firstName} />
+                                <input type='text' className='form-control' value={this.state.firstName} onChange={this.onChangeFirstName} required/>
                             </div>
 
                             <div className='form-group'>
                                 <label>Last Name:</label>
-                                <input type='text' className='form-control' value={this.state.lastName} />
+                                <input type='text' className='form-control' value={this.state.lastName} onChange={this.onChangeLastName} required/>
                             </div>
 
                             <div className='form-group'>
                                 <label>Email:</label>
-                                <input type='text' className='form-control' value={this.state.email} />
+                                <input type='text' className='form-control' value={this.state.email} onChange={this.onChangeEmail} required />
                             </div>
                             <div className='form-group'>
-                                <button type='submit'>UPDATE</button>
+                                <button type='submit' onclick={this.updateUser}>UPDATE</button>
                                 <button type='submit' onclick={this.deleteUser}>DELETE</button>
                             </div>
                         </div>

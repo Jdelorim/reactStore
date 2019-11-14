@@ -24,10 +24,14 @@
 }
 
 .reg-end p{
+    /* margin-top: 20px; */
+    /* width: 400px;
+    margin: 0 auto; */
+    /* margin-bottom: 20px; */
+    margin: 0 auto;
+    width: 32%; 
     margin-top: 20px;
-   margin-left: 330px;
     margin-bottom: 20px;
-    display: inline-block;
     border: 1px solid white;
     padding: 10px;
     

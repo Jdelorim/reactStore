@@ -62,15 +62,19 @@ module.exports = (app) => {
 
    userRoutes.post('/update',(req,res)=>{
        const {firstName, lastName, email} = req.body;
-       
-       Customers.findOneAndUpdate({email: email},
-        {$and: [{firstName: firstName}, {lastName: lastName}, {email: email}]},{new: true})
-       .exec().then(data => {
-        console.log(data);
+       const uID = req.user._id;
+       console.log('up in harr')
+       Customers.findByIdAndUpdate(uID,{firstName, lastName, email},{new: true})
+        .exec().then(data => {
+            console.log(data);
        }).catch(err=>{
-           console.log(err);
+            console.log(err);
        })
         
+   });
+
+   userRoutes.post('/delete', (req,res)=>{
+       
    })
     
     

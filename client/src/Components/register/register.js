@@ -26,7 +26,7 @@ export default class Register extends Component {
 }
 
 
-    onChangefirstName(e){
+    onChangefirstName=(e)=>{
         this.setState({
             firstName: e.target.value
 

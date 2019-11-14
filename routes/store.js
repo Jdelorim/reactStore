@@ -50,7 +50,8 @@ module.exports = app => {
         console.log(req.user, req.body.id, req.body.quantity);
         
         const userName = req.user.firstName + ' ' + req.user.lastName;
-        
+        const userID = req.user._id;
+        console.log('----' + userID);
         let storeItem = {};
         let markUp = '';
         let catPrice = '';
@@ -66,7 +67,7 @@ module.exports = app => {
             console.log(err);
         });
 
-        Cart.findOne({userName}).then(data => {
+        Cart.findOne({userID: userID}).then(data => {
             let ppu ='';
             ppu = (catPrice * markUp).toFixed(2);
 
@@ -82,6 +83,7 @@ module.exports = app => {
              if(!data) {
                 console.log('create cart');
                 const cartItem = {
+                    userID: userID,
                     userName: userName,
                     userEmail: req.user.email,
                     products: products,
@@ -114,7 +116,7 @@ module.exports = app => {
                 let newTotalPrice = ((Number(products.pricePerUnit) * Number(products.quantity)) + Number(data.totalPrice)).toFixed(2);
                 let priceToString = newTotalPrice.toString();
                 console.log('newPrice: ' + priceToString);
-                Cart.findOneAndUpdate({userName: userName}, {$set: {totalPrice: priceToString}, $push:{products: products}},{new: true})
+                Cart.findOneAndUpdate({userID: userID}, {$set: {totalPrice: priceToString}, $push:{products: products}},{new: true})
                     .exec().then(data => {
                         console.log('what came in the cart' + data);
                         return res.send({
