@@ -7,24 +7,28 @@ import './register.css';
 export default class Register extends Component {
     constructor(props) {
         super(props);
-        this.onChangefirstName = this.onChangefirstName.bind(this);
-        this.onChangelastName = this.onChangelastName.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+      
     
     this.state = {
         firstName: '',
         lastName: '',
         email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        zipcode: '',
         password: '',
         confirmPassword: '',
         newEmail: [],
     }
 
 }
-
+    onChange = e =>{
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
 
     onChangefirstName=(e)=>{
         this.setState({
@@ -33,30 +37,30 @@ export default class Register extends Component {
         });
         console.log(`firstName: ${this.state.firstName}`);
     }
-    onChangelastName(e){
+    onChangelastName=(e)=>{
         this.setState({
             lastName: e.target.value
         });
         console.log(`lastName: ${this.state.lastName}`);
     }
-    onChangeEmail(e){
+    onChangeEmail=(e)=>{
         this.setState({
             email: e.target.value
         });
         console.log(`email: ${this.state.email}`);
     }
-    onChangePassword(e){
+    onChangePassword=(e)=>{
         this.setState({
             password: e.target.value
         })
     }
-    onChangeConfirmPassword(e){
+    onChangeConfirmPassword=(e)=>{
         this.setState({
             confirmPassword: e.target.value
         })
     }
     
-    onSubmit(e) {
+    onSubmit=(e)=> {
         e.preventDefault();
        
 
@@ -117,6 +121,56 @@ export default class Register extends Component {
                          <input type='email' className='form-control' 
                          value={this.state.email}
                          onChange={this.onChangeEmail} required />
+                     </div>
+
+                     <div className='form-group'>
+                         <label>Phone Number:</label>
+                         <input type='tel' className='form-control' 
+                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                         name='phone'
+                         value={this.state.phone}
+                         onChange={this.onChange} required />
+                     </div>
+
+                     <div className='form-group'>
+                         <label>Address:</label>
+                         <input type='text' className='form-control' 
+                         name='address'
+                         value={this.state.address}
+                         onChange={this.onChange} required />
+                     </div>
+
+
+                     <div className='form-group'>
+                         <label>City:</label>
+                         <input type='text' className='form-control' 
+                         name='city'
+                         value={this.state.city}
+                         onChange={this.onChange} required />
+                     </div>
+
+                     <div className='form-group'>
+                         <label>State:</label>
+                         <input type='text' className='form-control' 
+                         name='state'
+                         value={this.state.state}
+                         onChange={this.onChange} required />
+                     </div>
+
+                       <div className='form-group'>
+                         <label>State:</label>
+                         <input type='text' className='form-control' 
+                         name='state'
+                         value={this.state.state}
+                         onChange={this.onChange} required />
+                     </div>
+
+                     <div className='form-group'>
+                         <label>ZIP Code:</label>
+                         <input type='text' className='form-control' 
+                         name='zipcode'
+                         value={this.state.zipcode}
+                         onChange={this.onChange} required />
                      </div>
 
                      <div className='form-group'>

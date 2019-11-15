@@ -10,7 +10,7 @@ module.exports = (app) => {
     userRoutes.route('/register').post((req,res) => {
 
         console.log(`data coming back: ${JSON.stringify(req.body, null, 3)}`);
-        const { firstName, lastName, email, password } = req.body;
+        const email = req.body.email;
         Customers.findOne({email}).then(data =>{
             if(data) {
                 console.log('hitting here');
