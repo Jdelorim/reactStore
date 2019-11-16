@@ -68,6 +68,11 @@ export default class Register extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
+            phone: this.state.phone,
+            address: this.state.address,
+            city: this.state.city,
+            state: this.state.state,
+            zipcode: this.state.zipcode,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword
         }
@@ -83,11 +88,16 @@ export default class Register extends Component {
      })
            
     this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        password: '',
+        confirmPassword: ''
         });
 
     }
@@ -150,14 +160,6 @@ export default class Register extends Component {
                      </div>
 
                      <div className='form-group'>
-                         <label>State:</label>
-                         <input type='text' className='form-control' 
-                         name='state'
-                         value={this.state.state}
-                         onChange={this.onChange} required />
-                     </div>
-
-                       <div className='form-group'>
                          <label>State:</label>
                          <input type='text' className='form-control' 
                          name='state'

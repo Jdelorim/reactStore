@@ -10,7 +10,12 @@ export default class Profile extends Component {
             redirectTo: '',
             firstName: '',
             lastName: '',
-            email: ''
+            email: '',
+            phone: '',
+            address: '',
+            city: '',
+            state: '',
+            zipcode: ''
         }
     }
     componentDidMount(){
@@ -28,7 +33,12 @@ export default class Profile extends Component {
                     userName: res.data.user.firstName + ' ' + res.data.user.lastName,
                     firstName: res.data.user.firstName,
                     lastName: res.data.user.lastName,
-                    email: res.data.user.email
+                    email: res.data.user.email,
+                    phone: res.data.user.phone,
+                    address: res.data.user.address,
+                    city: res.data.user.city,
+                    state: res.data.user.state,
+                    zipcode: res.data.user.zipcode
                 });
                 
             } else {
@@ -41,30 +51,27 @@ export default class Profile extends Component {
             console.log('err '+ err);
         })
     }
-    onChangeFirstName = (e) => {
+    onChange = e => {
         this.setState({
-            firstName: e.target.value
-        })
-    }
-    onChangeLastName = e => {
-        this.setState({
-            lastName: e.target.value
-        })
-    }
-    onChangeEmail = e =>{
-        this.setState({
-            email: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
     updateUser = (e) => {
         e.preventDefault();
 
-        let data = {
+        const data = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            email: this.state.email
+            email: this.state.email,
+            address: this.state.address,
+            city: this.state.city,
+            state: this.state.state,
+            phone: this.state.phone,
+            zipcode: this.state.zipcode,
         }
+       
+       
         axios.post('/users/update', data ).then(res =>{
             console.log(res);
         })
@@ -75,11 +82,7 @@ export default class Profile extends Component {
 
     deleteUser = (e) => {
         e.preventDefault();
-        let data = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email
-        }
+       const {data} = this.state;
         axios.post('/users/delete', data ).then(res =>{
             console.log(res);
         })
@@ -104,21 +107,55 @@ export default class Profile extends Component {
                             <div className='form-holder'>
                             <div className='form-group'>
                                 <label>First Name:</label>
-                                <input type='text' className='form-control' value={this.state.firstName} onChange={this.onChangeFirstName} required/>
+                                <input type='text' className='form-control' value={this.state.firstName} 
+                                onChange={this.onChange} name='firstName' required/>
                             </div>
 
                             <div className='form-group'>
                                 <label>Last Name:</label>
-                                <input type='text' className='form-control' value={this.state.lastName} onChange={this.onChangeLastName} required/>
+                                <input type='text' className='form-control' value={this.state.lastName} 
+                                onChange={this.onChange} name='lastName' required/>
                             </div>
 
                             <div className='form-group'>
                                 <label>Email:</label>
-                                <input type='text' className='form-control' value={this.state.email} onChange={this.onChangeEmail} required />
+                                <input type='text' className='form-control' value={this.state.email} 
+                                onChange={this.onChange} name='email' required />
                             </div>
+
                             <div className='form-group'>
-                                <button type='submit' onclick={this.updateUser}>UPDATE</button>
-                                <button type='submit' onclick={this.deleteUser}>DELETE</button>
+                                <label>Address:</label>
+                                <input type='text' className='form-control' value={this.state.address} 
+                                onChange={this.onChange} name='address' required />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>City:</label>
+                                <input type='text' className='form-control' value={this.state.city} 
+                                onChange={this.onChange} name='city' required />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>State:</label>
+                                <input type='text' className='form-control' value={this.state.state} 
+                                onChange={this.onChange} name='state' required />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Zipcode:</label>
+                                <input type='text' className='form-control' value={this.state.zipcode} 
+                                onChange={this.onChange} name='zipcode' required />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Phone Number:</label>
+                                <input type='text' className='form-control' value={this.state.phone} 
+                                onChange={this.onChange} name='phone' required />
+                            </div>
+
+                            <div className='form-group'>
+                                <button type='submit' onClick={this.updateUser}>UPDATE</button>
+                                <button type='submit' onClick={this.deleteUser}>DELETE</button>
                             </div>
                         </div>
                     </form>

@@ -61,10 +61,12 @@ module.exports = (app) => {
    });
 
    userRoutes.post('/update',(req,res)=>{
-       const {firstName, lastName, email} = req.body;
+    //    const {firstName, lastName, email, address, city, state, zipcode, phone} = req.body;
+       const data = req.body;
+       console.log(req.body.firstName, req.body.lastName, req.body.email);
        const uID = req.user._id;
-       console.log('up in harr')
-       Customers.findByIdAndUpdate(uID,{firstName, lastName, email},{new: true})
+       console.log('up in harr');
+       Customers.findByIdAndUpdate(uID,data,{new: true})
         .exec().then(data => {
             console.log(data);
        }).catch(err=>{
