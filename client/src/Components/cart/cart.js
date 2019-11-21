@@ -14,6 +14,11 @@ export default class Cart extends Component {
     componentDidMount(){
         this.checkLoggedIn('/login')
     }
+    componentWillUnmount() {
+        this.setState({
+            redirectTo: ''
+        })
+    }
 
     checkLoggedIn = (route) =>{
         console.log('-----'+route);
@@ -44,8 +49,30 @@ export default class Cart extends Component {
                 <div className='cart-container'>
                     <div className='cart'>
                         <h2>Shopping Cart</h2>
+                    </div>   
+                <div className='cart-table'>
+                    <div className='cart-col'>
+                        <h1>Artist:</h1>
+                        <div className='item'>
+                            david bowie
+                        </div>
+                        <div className='item'>
+                            david bowie
+                        </div>
+                    </div>
+                    <div className='cart-col'>
+                        <h1>Album:</h1>
+                    </div>
+                    <div className='cart-col'>
+                        <h1>Quanity:</h1>
+                    </div>
+                    <div className='cart-col'>
+                        <h1>PricePerUnit:</h1>
+                    </div>
+
                     </div>
                 </div>
+             
             </div>
         )
         }

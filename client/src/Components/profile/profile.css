@@ -12,3 +12,23 @@
     color: white;
 
 }
+
+.profile-Btn {
+    
+    padding: 20px;
+    background-color: rgba(0,128,128,0.2);
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    margin-right: 10px;
+}
+
+.profile-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: -10px;
+    margin-bottom: 20px;
+}
+
+

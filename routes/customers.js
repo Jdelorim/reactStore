@@ -76,7 +76,12 @@ module.exports = (app) => {
    });
 
    userRoutes.post('/delete', (req,res)=>{
-       
+       const id = req.user._id;
+       Customers.findByIdAndDelete(id).exec().then(data => { 
+           console.log('DELETED' + data);
+       }).catch(err=>{
+           console.log(err);
+       })
    })
     
     

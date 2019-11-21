@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
 import axios from 'axios';
 import './register.css';
 
@@ -7,9 +8,7 @@ import './register.css';
 export default class Register extends Component {
     constructor(props) {
         super(props);
-      
-    
-    this.state = {
+      this.state = {
         firstName: '',
         lastName: '',
         email: '',
@@ -20,46 +19,18 @@ export default class Register extends Component {
         zipcode: '',
         password: '',
         confirmPassword: '',
+        redirectTo: '',
         newEmail: [],
     }
 
 }
+
+   
     onChange = e =>{
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-
-    onChangefirstName=(e)=>{
-        this.setState({
-            firstName: e.target.value
-
-        });
-        console.log(`firstName: ${this.state.firstName}`);
-    }
-    onChangelastName=(e)=>{
-        this.setState({
-            lastName: e.target.value
-        });
-        console.log(`lastName: ${this.state.lastName}`);
-    }
-    onChangeEmail=(e)=>{
-        this.setState({
-            email: e.target.value
-        });
-        console.log(`email: ${this.state.email}`);
-    }
-    onChangePassword=(e)=>{
-        this.setState({
-            password: e.target.value
-        })
-    }
-    onChangeConfirmPassword=(e)=>{
-        this.setState({
-            confirmPassword: e.target.value
-        })
-    }
-    
     onSubmit=(e)=> {
         e.preventDefault();
        
@@ -85,6 +56,13 @@ export default class Register extends Component {
 
      axios.post('users/register/', info).then(res=>{
          console.log(res.data);
+     }).then(()=>{
+        this.setState({
+            redirectTo: '/login'
+        },console.log('it hit here'))
+     })
+     .catch(err=>{
+         console.log(err);
      })
            
     this.setState({
@@ -104,6 +82,9 @@ export default class Register extends Component {
 
     
     render(){
+        if(this.state.redirectTo) {
+            return <Redirect to={{ pathname: this.state.redirectTo}} />
+        } else {
         return(
           <div className='about-container'>
                 <div className='reg-title'>
@@ -114,23 +95,27 @@ export default class Register extends Component {
                      <div className='form-holder'>
                      <div className='form-group'>
                          <label>First Name:</label>
-                         <input type='text' className='form-control' 
-                         value={this.state.firstName}
-                         onChange={this.onChangefirstName}  required/>
+                         <input type='text' className='form-control'
+                         name='firstName' 
+                         value={this.state.firstName} 
+
+                         onChange={this.onChange}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Last Name:</label>
                          <input type='text' className='form-control' 
                          value={this.state.lastName}
-                         onChange={this.onChangelastName}  required/>
+                         name='lastName'
+                         onChange={this.onChange}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Email:</label>
                          <input type='email' className='form-control' 
+                         name='email'
                          value={this.state.email}
-                         onChange={this.onChangeEmail} required />
+                         onChange={this.onChange} required />
                      </div>
 
                      <div className='form-group'>
@@ -179,18 +164,20 @@ export default class Register extends Component {
                          <label>Password:</label>
                          <input type='password' className='form-control' 
                          value={this.state.password}
-                         onChange={this.onChangePassword}  required/>
+                         name='password'
+                         onChange={this.onChange}  required/>
                      </div>
 
                      <div className='form-group'>
                          <label>Confirm Password:</label>
-                         <input type='password' className='form-control' 
+                         <input type='password' className='form-control'
+                         name='confirmPassword' 
                          value={this.state.confirmPassword}
-                         onChange={this.onChangeConfirmPassword} required/>
+                         onChange={this.onChange} required/>
                      </div>
 
                      <div className='form-group'>
-                         <button type='submit'>
+                         <button type='submit' >
                              Sign Me Up!
                          </button>
                      </div>
@@ -209,7 +196,7 @@ export default class Register extends Component {
           
 
         )
-
+        }
 
     }
 }

@@ -19,8 +19,7 @@ export default class Store extends Component {
            userName: '',
            data: []
            
-          
-        }
+}
     }
     componentDidMount(){
         this.checkLoggedIn('/login');
@@ -47,9 +46,7 @@ export default class Store extends Component {
         })
     }
 
-    redirectToLogin = () => {
-        this.props.navigation.push('/login');
-    }
+   
 
     getAlbums = () => {
         axios.get('/store/products').then(res => {

@@ -15,11 +15,17 @@ export default class Profile extends Component {
             address: '',
             city: '',
             state: '',
-            zipcode: ''
+            zipcode: '',
+            
         }
     }
     componentDidMount(){
         this.checkLoggedIn('/login')
+    }
+    componentWillUnmount(){
+        this.setState({
+            redirectTo: ''
+        })
     }
 
     checkLoggedIn = (route) =>{
@@ -82,9 +88,14 @@ export default class Profile extends Component {
 
     deleteUser = (e) => {
         e.preventDefault();
-       const {data} = this.state;
+       const data = this.state;
         axios.post('/users/delete', data ).then(res =>{
             console.log(res);
+        })
+        .then(()=>{
+            this.setState({
+                redirectTo: '/login'
+            }, console.log('hit delete'))
         })
         .catch(err=>{
             console.log(err);
@@ -153,9 +164,9 @@ export default class Profile extends Component {
                                 onChange={this.onChange} name='phone' required />
                             </div>
 
-                            <div className='form-group'>
-                                <button type='submit' onClick={this.updateUser}>UPDATE</button>
-                                <button type='submit' onClick={this.deleteUser}>DELETE</button>
+                            <div className='profile-btn-container'>
+                                <button className='profile-Btn' type='submit' onClick={this.updateUser}>UPDATE</button>
+                                <button  className='profile-Btn' type='submit' onClick={this.deleteUser}>DELETE</button>
                             </div>
                         </div>
                     </form>

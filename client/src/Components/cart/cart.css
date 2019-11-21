@@ -12,3 +12,13 @@
     color: white;
 
 }
+
+.cart-table{
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+}
+
+.cart-col{
+    columns: 1;
+}
