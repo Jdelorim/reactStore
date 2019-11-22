@@ -4,20 +4,49 @@ import axios from 'axios';
 import LoginHolder from '../loginHolder/loginHolder';
 import './cart.css';
 
+const Albuminfo = props =>(
+    <div className='item-album'>
+        { props.album } 
+    </div>
+)
+const Artisinfo = (props) => (
+    <div className='item-artist'>
+        { props.artist }
+    </div>
+)
+const Itemquantity = (props) => (
+    <div className='item'>
+        { props.quantity }
+    </div>
+)
+const PricePerUnit = props => (
+    <div className='item'>
+        { props.ppu }
+    </div>
+)
+
 export default class Cart extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            redirectTo: ''
+            redirectTo: '',
+            products: [],
+            timeStamp: '',
+            totalPrice: '',
+            itemNo: []
         }
     }
-    componentDidMount(){
-        this.checkLoggedIn('/login')
+    componentDidMount=()=>{
+        if(this.unmounted) return;
+        this.checkLoggedIn('/login');
+        this.getUserInfo();
+       
     }
-    componentWillUnmount() {
+    componentWillUnmount=()=> {
         this.setState({
             redirectTo: ''
         })
+        this.unmounted = true;
     }
 
     checkLoggedIn = (route) =>{
@@ -39,6 +68,50 @@ export default class Cart extends Component {
             console.log('err '+ err);
         })
     }
+    getUserInfo = () =>{
+        axios.get('/store/cart').then(res => {
+            console.log(JSON.stringify(res.data.data.products, null, 3));
+            if(this.unmounted) return;
+            this.setState({ 
+            products: res.data.data.products
+            });
+        })
+       .catch(err=>{
+            console.log(err);
+        })
+        
+    }
+
+    displayAlbums= () => {
+       return this.state.products.map((p,i)=>{
+            return <Albuminfo album={p.albumName}  key={i} />;
+        })
+    }
+    displayArtist = () => {
+        return this.state.products.map((a,i)=>{
+            return <Artisinfo artist={a.artistName} key={i} />
+        })
+    }
+    displayQuantity = () => {
+        return this.state.products.map((q,i)=>{
+            return <Itemquantity quantity={q.quantity} key={i} />
+        })
+    }
+    displayPrice = () => {
+        return this.state.products.map((p,i)=>{
+            return <PricePerUnit ppu={p.pricePerUnit} key={i} />
+        })
+    }
+    
+    
+
+   
+
+
+
+
+
+
     render(){
         if(this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -52,24 +125,29 @@ export default class Cart extends Component {
                     </div>   
                 <div className='cart-table'>
                     <div className='cart-col'>
-                        <h1>Artist:</h1>
-                        <div className='item'>
-                            david bowie
-                        </div>
-                        <div className='item'>
-                            david bowie
-                        </div>
+                        <h4>Item No</h4>
+                       
                     </div>
                     <div className='cart-col'>
-                        <h1>Album:</h1>
+                        <h4>Artist</h4>
+                       { this.displayArtist() }
                     </div>
                     <div className='cart-col'>
-                        <h1>Quanity:</h1>
+                        <h4>Album</h4>
+                        { this.displayAlbums() }
                     </div>
                     <div className='cart-col'>
-                        <h1>PricePerUnit:</h1>
+                        <h4>Quantity</h4>
+                        { this.displayQuantity() }
+                    </div>
+                    <div className='cart-col'>
+                        <h4>PricePerUnit</h4>
+                        { this.displayPrice() }
                     </div>
 
+                    </div>
+                    <div className='cart-table-bottom'>
+                        <h4>Total Price</h4>
                     </div>
                 </div>
              

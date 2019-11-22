@@ -131,7 +131,20 @@ module.exports = app => {
         })
 
     
-
+        storeRoutes.route('/cart').get((req,res)=>{
+            const userId = req.user._id;
+            Cart.findOne({userID: userId}).exec().then(data =>{
+                if(data) {
+                    return res.send({data: data});
+                } else {
+                    return res.send({empty: 'Cart is Empty'});
+                }
+                
+            })
+            .catch(err=>{
+                return res.send(err);
+            })
+        })
 
     app.use('/store', storeRoutes);
 }
