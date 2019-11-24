@@ -152,7 +152,7 @@ export default class Cart extends Component {
                         { this.displayPrice() }
                     </div>
                     <div className='cart-col'>
-                        <h4>Remove from Cart</h4>
+                        <h4>Remove</h4>
                        { this.removeItem() }
                     </div>
 
