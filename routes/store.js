@@ -146,5 +146,9 @@ module.exports = app => {
             })
         })
 
+        storeRoutes.route('/removecart').post((req,res)=>{
+            console.log(req.body.id);
+        })
+
     app.use('/store', storeRoutes);
 }

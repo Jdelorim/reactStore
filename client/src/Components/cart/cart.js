@@ -24,6 +24,15 @@ const PricePerUnit = props => (
         { props.ppu }
     </div>
 )
+const RemoveItem = props => (
+    // <div className='item'>
+    //     <button onClick={ this.sendId() } value={ props.id }>X</button>
+    // </div>
+    <div className='item'>
+        {props.id}
+    </div>
+   
+)
 
 export default class Cart extends Component {
     constructor(props) {
@@ -33,9 +42,17 @@ export default class Cart extends Component {
             products: [],
             timeStamp: '',
             totalPrice: '',
-            itemNo: []
+            itemNo: [],
+            currentId: ''
         }
     }
+    // sendId = () => {
+        
+    //     this.setState({
+    //         currentId: 'hello'
+    //     }, console.log('should be item id' + this.state.currentId))
+
+    // }
     componentDidMount=()=>{
         if(this.unmounted) return;
         this.checkLoggedIn('/login');
@@ -102,6 +119,12 @@ export default class Cart extends Component {
             return <PricePerUnit ppu={p.pricePerUnit} key={i} />
         })
     }
+    removeItem = () => {
+        return this.state.products.map((id, i)=>{
+            return <RemoveItem id={id.id} key={i} />
+        })
+    }
+  
     
     
     render() {
@@ -138,9 +161,7 @@ export default class Cart extends Component {
                     </div>
                     <div className='cart-col'>
                         <h4>Remove from Cart</h4>
-                        <button className='item'>
-                           X
-                        </button>
+                        { this.removeItem() }
                     </div>
 
                     </div>
