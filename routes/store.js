@@ -148,6 +148,13 @@ module.exports = app => {
 
         storeRoutes.route('/removecart').post((req,res)=>{
             console.log(req.body.id);
+            const id = req.body.id;
+            Cart.findByIdAndDelete(id).then(data=>{
+                console.log(data);
+            })
+            .catch(err=>{
+                console.log(err);
+            })
         })
 
     app.use('/store', storeRoutes);

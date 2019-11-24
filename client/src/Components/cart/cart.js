@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import LoginHolder from '../loginHolder/loginHolder';
+import RemoveItem from '../removeItem/removeItem';
 import './cart.css';
 
 const Albuminfo = props =>(
@@ -23,15 +24,6 @@ const PricePerUnit = props => (
     <div className='item'>
         { props.ppu }
     </div>
-)
-const RemoveItem = props => (
-    // <div className='item'>
-    //     <button onClick={ this.sendId() } value={ props.id }>X</button>
-    // </div>
-    <div className='item'>
-        {props.id}
-    </div>
-   
 )
 
 export default class Cart extends Component {
@@ -124,7 +116,7 @@ export default class Cart extends Component {
             return <RemoveItem id={id.id} key={i} />
         })
     }
-  
+    
     
     
     render() {
@@ -161,7 +153,7 @@ export default class Cart extends Component {
                     </div>
                     <div className='cart-col'>
                         <h4>Remove from Cart</h4>
-                        { this.removeItem() }
+                       { this.removeItem() }
                     </div>
 
                     </div>
