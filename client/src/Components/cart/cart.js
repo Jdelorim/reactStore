@@ -82,7 +82,7 @@ export default class Cart extends Component {
         
     }
 
-    displayAlbums= () => {
+    displayAlbums = () => {
        return this.state.products.map((p,i)=>{
             return <Albuminfo album={p.albumName}  key={i} />;
         })
@@ -104,15 +104,7 @@ export default class Cart extends Component {
     }
     
     
-
-   
-
-
-
-
-
-
-    render(){
+    render() {
         if(this.state.redirectTo) {
             return <Redirect to={{ pathname: this.state.redirectTo }} />
         } else {
@@ -144,10 +136,21 @@ export default class Cart extends Component {
                         <h4>PricePerUnit</h4>
                         { this.displayPrice() }
                     </div>
+                    <div className='cart-col'>
+                        <h4>Remove from Cart</h4>
+                        <button className='item'>
+                           X
+                        </button>
+                    </div>
 
                     </div>
                     <div className='cart-table-bottom'>
-                        <h4>Total Price</h4>
+                        
+                        <div className='price-holder'>
+                            <h4>Total Price</h4>
+                        </div>
+
+                        
                     </div>
                 </div>
              
