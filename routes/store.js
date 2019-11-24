@@ -149,13 +149,15 @@ module.exports = app => {
         storeRoutes.route('/removecart').post((req,res)=>{
             console.log(req.body.id);
             const id = req.body.id;
-            Cart.findByIdAndDelete(id).then(data=>{
-                console.log(data);
+            const userId = req.user.id
+            Cart.findOneAndUpdate({userID: userId}, { $pull:{products: {id: id}}},{new: true})
+                    .exec().then(data => {
+                        console.log(data);
             })
             .catch(err=>{
-                console.log(err);
+            console.log(err);
             })
-        })
+    })
 
     app.use('/store', storeRoutes);
 }
