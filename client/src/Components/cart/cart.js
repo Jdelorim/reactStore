@@ -79,10 +79,11 @@ export default class Cart extends Component {
     }
     getUserInfo = () =>{
         axios.get('/store/cart').then(res => {
-            console.log(JSON.stringify(res.data.data.products, null, 3));
+            // console.log(JSON.stringify(res.data.data.products, null, 3));
             if(this.unmounted) return;
             this.setState({ 
-            products: res.data.data.products
+            products: res.data.data.products,
+            totalPrice: res.data.data.totalPrice
             });
         })
        .catch(err=>{
@@ -90,6 +91,8 @@ export default class Cart extends Component {
         })
         
     }
+
+
 
     displayAlbums = () => {
        return this.state.products.map((p,i)=>{
@@ -131,10 +134,7 @@ export default class Cart extends Component {
                         <h2>Shopping Cart</h2>
                     </div>   
                 <div className='cart-table'>
-                    <div className='cart-col'>
-                        <h4>Item No</h4>
-                       
-                    </div>
+                
                     <div className='cart-col'>
                         <h4>Artist</h4>
                        { this.displayArtist() }
@@ -160,7 +160,8 @@ export default class Cart extends Component {
                     <div className='cart-table-bottom'>
                         
                         <div className='price-holder'>
-                            <h4>Total Price</h4>
+                            <h2>Total Price</h2>
+                        <div>{this.state.totalPrice}</div>
                         </div>
 
                         

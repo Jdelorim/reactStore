@@ -111,7 +111,7 @@ module.exports = app => {
                             msg: 'Aleady in cart'
                         })
                     } 
-                    console.log('is it hitting here if new');
+                    //console.log('is it hitting here if new');
                 }
                 let newTotalPrice = ((Number(products.pricePerUnit) * Number(products.quantity)) + Number(data.totalPrice)).toFixed(2);
                 let priceToString = newTotalPrice.toString();
@@ -147,16 +147,53 @@ module.exports = app => {
         })
 
         storeRoutes.route('/removecart').post((req,res)=>{
-            console.log(req.body.id);
+            //console.log(req.body.id);
             const id = req.body.id;
-            const userId = req.user.id
-            Cart.findOneAndUpdate({userID: userId}, { $pull:{products: {id: id}}},{new: true})
-                    .exec().then(data => {
-                        console.log(data);
-            })
-            .catch(err=>{
-            console.log(err);
-            })
+            const userId = req.user.id;
+            let quantity;
+            let price;
+            let priceToString;
+            
+            Cart.findOne({userID: userId}).exec().then(data => {
+                if(data) {
+                        let totalPrice = data.totalPrice;
+                        let item = data.products.filter(i=>{
+                            return i.id == id;
+                        })
+                         quantity = item[0].quantity;
+                         price = item[0].pricePerUnit;
+                        console.log(quantity, price, totalPrice);
+                        let newTotalPricePerUnit = ((Number(price) * Number(quantity))).toFixed(2);
+                        let newTotalPrice = (Number(totalPrice) - newTotalPricePerUnit).toFixed(2);
+                        priceToString = newTotalPrice.toString();
+                        console.log(priceToString);
+
+                        console.log('should change price: ' + newTotalPrice);
+                } else {
+                    console.log('no data!');
+                    //{$pull:{products: {id: id}}}
+                }
+            }).catch(err=>{
+                console.log(err);
+            }).then(()=>{
+                Cart.findOneAndUpdate({userID: userId}, {totalPrice: priceToString} ,{new: true}).exec().then(data => {
+                    console.log(data);
+                }).catch(err=>{
+                    console.log(err);
+                });
+            }).then(()=>{
+                Cart.findOneAndUpdate({userID: userId},{$pull:{products: {id: id}}},{new: true}).exec().then(data=>{
+                    if(data) {
+                        console.log('removed product');
+                    } else {
+                        console.log('did not remove product');
+                    }
+                }).catch(err=> {return console.log(err)});
+            }).catch(err=>{return res.send(err)});
+
+           
+            
+           
     })
 
     app.use('/store', storeRoutes);
