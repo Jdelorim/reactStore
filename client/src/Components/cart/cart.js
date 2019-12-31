@@ -38,6 +38,7 @@ export default class Cart extends Component {
             currentId: '',
             trigEmpty: true,
             shippingAddress: '',
+            cartId: ''
         }
     }
    
@@ -82,7 +83,7 @@ export default class Cart extends Component {
 
     getUserInfo = () =>{
         axios.get('/store/cart').then(res => {
-            // console.log(JSON.stringify(res.data.data.products, null, 3));
+             console.log(JSON.stringify(res.data.data._id, null, 3));
             if(this.unmounted) return;
             if(res.data.data.products.length === 0) {
                 this.setState({
@@ -92,7 +93,8 @@ export default class Cart extends Component {
                 this.setState({ 
                     trigEmpty: true,
                     products: res.data.data.products,
-                    totalPrice: res.data.data.totalPrice
+                    totalPrice: res.data.data.totalPrice,
+                    cartId: res.data.data._id
                 });
             }
            
@@ -114,9 +116,10 @@ export default class Cart extends Component {
             userName: this.state.userName,
             userEmail: this.state.userEmail,
             totalPrice: this.state.totalPrice,
-            products: this.state.products
+            products: this.state.products,
+            cartId: this.state.cartId
         }
-        
+
         axios.post('/store/placeOrder', cartData).then(res=>{
             console.log(res);
         })

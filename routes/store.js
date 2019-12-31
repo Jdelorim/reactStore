@@ -190,6 +190,8 @@ module.exports = app => {
 
         storeRoutes.route('/placeOrder').post((req,res)=>{
             let newNumber;
+            let cartId = req.body.cartId;
+            console.log('-----++++ ' + cartId);
             if(!req.user) {
                return res.send({
                    msg: 'you are logged out!'
@@ -216,12 +218,37 @@ module.exports = app => {
                     const pOrder = new Orders(newOrder);
                     pOrder.save().then(res=>{
                         console.log('this is the response' + res);
-                    }).catch(err=>{
+                    }).then(()=>{
+                        Cart.findByIdAndDelete({_id: cartId}).then(res=>{
+                            console.log(res);
+                        }).catch(err=>{
+                            console.log(err);
+                        })
+                    })
+                    .catch(err=>{
                         console.log(err);
                     });
                 } else {
-                    console.log(data[0]);
-                    
+                    console.log('returning my last order ' + data[0].orderNo);
+                    let lastOrderNo = data[0].orderNo++;
+                    newNumber = lastOrderNo + 1;
+                    if(newNumber <= 99999){
+                        newNumber = ('0000' + newNumber).slice(-5);
+                    }
+                    newOrder.orderNo = newNumber;
+                    const pOrder = new Orders(newOrder);
+                    pOrder.save().then(res=>{
+                        console.log('next order placed ' + res);
+                    }).then(()=>{
+                        Cart.findByIdAndDelete({_id: cartId}).then(res=>{
+                            console.log(res);
+                        }).catch(err=>{
+                            console.log(err);
+                        })
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
                 }
             })
 
