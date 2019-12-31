@@ -35,16 +35,12 @@ export default class Cart extends Component {
             timeStamp: '',
             totalPrice: '',
             itemNo: [],
-            currentId: ''
+            currentId: '',
+            trigEmpty: true,
+            shippingAddress: '',
         }
     }
-    // sendId = () => {
-        
-    //     this.setState({
-    //         currentId: 'hello'
-    //     }, console.log('should be item id' + this.state.currentId))
-
-    // }
+   
     componentDidMount=()=>{
         if(this.unmounted) return;
         this.checkLoggedIn('/login');
@@ -59,16 +55,22 @@ export default class Cart extends Component {
     }
 
     checkLoggedIn = (route) =>{
-        console.log('-----'+route);
+       
         axios.get('/users/check').then(res => {
-            console.log(JSON.stringify(res, null, 3));
+            // console.log(JSON.stringify(res, null, 3));
             if(res.data.user){
-                console.log('user detected' + res.data.user.firstName);
+                // console.log('user detected' + res.data.user.firstName);
                 this.setState({
-                    userName: res.data.user.firstName + ' ' + res.data.user.lastName
+                    userName: res.data.user.firstName + ' ' + res.data.user.lastName,
+                    userEmail: res.data.user.email,
+                    shippingAddress: res.data.user.address + ', ' 
+                                     + res.data.user.city + 
+                                     ', ' + res.data.user.state 
+                                     + ', ' + res.data.user.zipcode
+                    
                 })
             } else {
-                console.log('hitting null');
+                // console.log('hitting null');
                 this.setState({
                     redirectTo: route
                 })
@@ -77,19 +79,50 @@ export default class Cart extends Component {
             console.log('err '+ err);
         })
     }
+
     getUserInfo = () =>{
         axios.get('/store/cart').then(res => {
             // console.log(JSON.stringify(res.data.data.products, null, 3));
             if(this.unmounted) return;
-            this.setState({ 
-            products: res.data.data.products,
-            totalPrice: res.data.data.totalPrice
-            });
+            if(res.data.data.products.length === 0) {
+                this.setState({
+                    trigEmpty: false
+                })
+            } else {
+                this.setState({ 
+                    trigEmpty: true,
+                    products: res.data.data.products,
+                    totalPrice: res.data.data.totalPrice
+                });
+            }
+           
         })
        .catch(err=>{
             console.log(err);
         })
         
+    }
+
+    grabDate = () => {
+        let d = new Date();
+        let nd =  (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear() ;
+       return nd;
+
+    }
+    placeOrder = () => {
+        const cartData = {
+            userName: this.state.userName,
+            userEmail: this.state.userEmail,
+            totalPrice: this.state.totalPrice,
+            products: this.state.products
+        }
+        
+        axios.post('/store/placeOrder', cartData).then(res=>{
+            console.log(res);
+        })
+        .catch(err=>{
+            return err;
+        })
     }
 
 
@@ -111,7 +144,7 @@ export default class Cart extends Component {
     }
     displayPrice = () => {
         return this.state.products.map((p,i)=>{
-            return <PricePerUnit ppu={p.pricePerUnit} key={i} />
+            return <PricePerUnit ppu={'$' + p.pricePerUnit} key={i} />
         })
     }
     removeItem = () => {
@@ -129,10 +162,19 @@ export default class Cart extends Component {
         return (
             <div className='login-holder'>
                 <LoginHolder userName={this.state.userName} />
+                 
+            
                 <div className='cart-container'>
                     <div className='cart'>
                         <h2>Shopping Cart</h2>
                     </div>   
+                <div className={this.state.trigEmpty ? 'hide-me-cart' : 'show-me-cart'}>
+                    <div className='empty-cart'>
+                        <b>Cart is Empty! Please place an order!</b>
+                    </div>
+                </div>
+                <div className={this.state.trigEmpty ? 'show-me-cart' : 'hide-me-cart'}> 
+               
                 <div className='cart-table'>
                 
                     <div className='cart-col'>
@@ -158,16 +200,15 @@ export default class Cart extends Component {
 
                     </div>
                     <div className='cart-table-bottom'>
-                        
                         <div className='price-holder'>
-                            <h2>Total Price</h2>
-                        <div>{this.state.totalPrice}</div>
+                            <div><b>Date: </b> { this.grabDate() } </div>
+                            <div><b>Total Price:</b> ${this.state.totalPrice}</div>
+                            <div><b>Shipping Address: </b>{this.state.shippingAddress}</div>
+                            <button className='profile-Btn'  onClick={this.placeOrder}>Place Order</button>
                         </div>
-
-                        
                     </div>
                 </div>
-             
+             </div>
             </div>
         )
         }

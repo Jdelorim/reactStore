@@ -19,7 +19,7 @@ export default class LoginHolder extends Component {
    }
 
    logOut = () => {
-       console.log('in herrr')
+    
        console.log(this.state.logOut);
     if(this.state.logOut === true) {
         axios.get('users/logout').then(res=>{

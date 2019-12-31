@@ -23,8 +23,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: new mongoStore({ mongooseConnection: mongoose.connection }),
-  //4 hours
-  cookie: { maxAge: 240 * 60 * 1000 }
+  //2 hours
+  cookie: { maxAge: 120 * 60 * 1000 }
 }));
 
 app.use(passport.initialize());

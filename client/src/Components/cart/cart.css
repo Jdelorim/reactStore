@@ -72,11 +72,33 @@
     margin-right: 15%;
     width: 65%;
     padding-left: 5%;
-    padding-bottom: 0;
+    padding-bottom: 20px;
+    padding-top: 10px;
     margin-top: -40px;
+    margin-bottom: 40px;
     background-color: rgba(255,255,255,0.4);
 }
-.price-holder {
-    
+.price-holder button {
+   margin-top: 15px;
+   
+}
+.price-holder div{
+    padding-bottom: 5px;
+}
+.show-me-cart {
+    display: block;
 
+}
+
+.hide-me-cart {
+    display: none;
+}
+
+.empty-cart {
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 200px;
+    color: white;
+   
 }

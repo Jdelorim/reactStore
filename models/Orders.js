@@ -15,7 +15,7 @@ let OrdersSchema = new Schema({
         required: true
     },
     products: [{
-        aristName: {
+        artistName: {
             type: String,
             required: true
         },
@@ -39,7 +39,7 @@ let OrdersSchema = new Schema({
     timeStamp: {
         type: String,
         required: true,
-        default: new DataCue(Date.now())
+        default: new Date(Date.now())
     }
 
 });

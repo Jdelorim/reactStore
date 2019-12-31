@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import './records.css';
 import axios from 'axios';
@@ -99,10 +97,7 @@ export default class Records extends Component {
                     <img name={this.props.artistName} src={this.props.imgRef}
                         alt={this.props.artistName} />
                     <div className='record-cart'>
-                        
-                        
                         <button  className='cart-btn' onClick={this.addToCart}>Add to Cart</button>
-                    
                         <button className='number-btn' onClick={this.countDown}>-</button>
                         <button className='number-btn' onClick={this.countUp}>+</button>
                         <input type='number' className='cart-quant' value={this.state.count} readOnly />

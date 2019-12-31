@@ -3,6 +3,7 @@
 const storeRoutes = require('express').Router();
 const Products = require('../models/Products');
 const Cart = require('../models/Cart');
+const Orders = require('../models/Orders');
 
 module.exports = app => {
     storeRoutes.route('/products').get((req, res)=>{
@@ -29,12 +30,8 @@ module.exports = app => {
            
            }
            console.log('BNEW DATA: ' + JSON.stringify(holder, null, 3));
-           
-           
-            
             if(data) {
-               
-                 return res.send(arr);
+                return res.send(arr);
             }
         }).catch(err=>{
             if(err) return res.status(400).send("Can't find products");
@@ -100,8 +97,7 @@ module.exports = app => {
                 });
             } 
             if(data) {
-                
-                for(var i =0;i<data.products.length;i++) {
+                for(let i =0;i<data.products.length;i++) {
                     console.log('new product req ' + products.id);
                     console.log('whats already in DB ' + data.products[i].id);
                
@@ -111,7 +107,7 @@ module.exports = app => {
                             msg: 'Aleady in cart'
                         })
                     } 
-                    //console.log('is it hitting here if new');
+                    
                 }
                 let newTotalPrice = ((Number(products.pricePerUnit) * Number(products.quantity)) + Number(data.totalPrice)).toFixed(2);
                 let priceToString = newTotalPrice.toString();
@@ -171,7 +167,7 @@ module.exports = app => {
                         console.log('should change price: ' + newTotalPrice);
                 } else {
                     console.log('no data!');
-                    //{$pull:{products: {id: id}}}
+                    
                 }
             }).catch(err=>{
                 console.log(err);
@@ -190,11 +186,46 @@ module.exports = app => {
                     }
                 }).catch(err=> {return console.log(err)});
             }).catch(err=>{return res.send(err)});
+        });
 
-           
-            
-           
-    })
+        storeRoutes.route('/placeOrder').post((req,res)=>{
+            let newNumber;
+            if(!req.user) {
+               return res.send({
+                   msg: 'you are logged out!'
+               });
+            }
+            const newOrder = {
+                orderNo: '',
+                userId: req.user._id,
+                userName: req.body.userName,
+                userEmail: req.body.userEmail,
+                products: req.body.products,
+                totalPrice: req.body.totalPrice
+
+            }
+            Orders.find({}).sort({orderNo: -1}).then(data => {
+                if(data.length === 0) {
+                    newNumber = 1;
+                    if(newNumber <= 99999){
+                        newNumber = ('0000' + newNumber).slice(-5);
+                    }
+                    console.log(newNumber);
+                    newOrder.orderNo = newNumber;
+                    console.log(newOrder);
+                    const pOrder = new Orders(newOrder);
+                    pOrder.save().then(res=>{
+                        console.log('this is the response' + res);
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                } else {
+                    console.log(data[0]);
+                    
+                }
+            })
+
+        })
 
     app.use('/store', storeRoutes);
 }
