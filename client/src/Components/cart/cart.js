@@ -27,30 +27,35 @@ const PricePerUnit = props => (
 )
 
 export default class Cart extends Component {
+    unmounted = false;
     constructor(props) {
+        
         super(props)
         this.state = {
-            redirectTo: '',
+            redirectTo: null,
             products: [],
             timeStamp: '',
             totalPrice: '',
             itemNo: [],
             currentId: '',
-            trigEmpty: true,
             shippingAddress: '',
             cartId: ''
         }
+
+        
+
     }
    
     componentDidMount=()=>{
-        if(this.unmounted) return;
+       this.unmounted = false;
         this.checkLoggedIn('/login');
         this.getUserInfo();
+
        
     }
     componentWillUnmount=()=> {
         this.setState({
-            redirectTo: ''
+            redirectTo: null
         })
         this.unmounted = true;
     }
@@ -67,11 +72,10 @@ export default class Cart extends Component {
                     shippingAddress: res.data.user.address + ', ' 
                                      + res.data.user.city + 
                                      ', ' + res.data.user.state 
-                                     + ', ' + res.data.user.zipcode
-                    
+                                     + ', ' + res.data.user.zipcode 
                 })
             } else {
-                // console.log('hitting null');
+                
                 this.setState({
                     redirectTo: route
                 })
@@ -83,8 +87,7 @@ export default class Cart extends Component {
 
     getUserInfo = () =>{
         axios.get('/store/cart').then(res => {
-             console.log(JSON.stringify(res.data.data._id, null, 3));
-            if(this.unmounted) return;
+            if(res.data.data) {
             if(res.data.data.products.length === 0) {
                 this.setState({
                     trigEmpty: false
@@ -97,9 +100,8 @@ export default class Cart extends Component {
                     cartId: res.data.data._id
                 });
             }
-           
-        })
-       .catch(err=>{
+        }  
+        }).catch(err=>{
             console.log(err);
         })
         
@@ -112,7 +114,6 @@ export default class Cart extends Component {
 
     }
     placeOrder = () => {
-        //hello
         const cartData = {
             userName: this.state.userName,
             userEmail: this.state.userEmail,
@@ -120,17 +121,20 @@ export default class Cart extends Component {
             products: this.state.products,
             cartId: this.state.cartId
         }
-
+        if(this.unmounted === false) {
         axios.post('/store/placeOrder', cartData).then(res=>{
-            console.log(res);
-        })
+            if(res) {
+                this.setState({
+                    redirectTo: '/order'
+                });
+            }
+         })
         .catch(err=>{
             return err;
         })
     }
-
-
-
+    }
+    
     displayAlbums = () => {
        return this.state.products.map((p,i)=>{
             return <Albuminfo album={p.albumName}  key={i} />;
@@ -166,9 +170,7 @@ export default class Cart extends Component {
         return (
             <div className='login-holder'>
                 <LoginHolder userName={this.state.userName} />
-                 
-            
-                <div className='cart-container'>
+                 <div className='cart-container'>
                     <div className='cart'>
                         <h2>Shopping Cart</h2>
                     </div>   
@@ -181,7 +183,7 @@ export default class Cart extends Component {
                
                 <div className='cart-table'>
                 
-                    <div className='cart-col'>
+                    <div className='cart-col-first'>
                         <h4>Artist</h4>
                        { this.displayArtist() }
                     </div>
@@ -197,7 +199,7 @@ export default class Cart extends Component {
                         <h4>PricePerUnit</h4>
                         { this.displayPrice() }
                     </div>
-                    <div className='cart-col'>
+                    <div className='cart-col-last'>
                         <h4>Remove</h4>
                        { this.removeItem() }
                     </div>
@@ -208,7 +210,7 @@ export default class Cart extends Component {
                             <div><b>Date: </b> { this.grabDate() } </div>
                             <div><b>Total Price:</b> ${this.state.totalPrice}</div>
                             <div><b>Shipping Address: </b>{this.state.shippingAddress}</div>
-                            <button className='profile-Btn'  onClick={this.placeOrder}>Place Order</button>
+                            <button  className='profile-Btn'  onClick={this.placeOrder}>Place Order</button>
                         </div>
                     </div>
                 </div>

@@ -27,16 +27,16 @@ export default class Store extends Component {
     }
 
     checkLoggedIn = (route) =>{
-        console.log('-----'+route);
+        //console.log('-----'+route);
         axios.get('/users/check').then(res => {
             console.log(JSON.stringify(res, null, 3));
             if(res.data.user){
-                console.log('user detected' + res.data.user.firstName);
+                //console.log('user detected' + res.data.user.firstName);
                 this.setState({
                     userName: res.data.user.firstName + ' ' + res.data.user.lastName
                 })
             } else {
-                console.log('hitting null');
+                //console.log('hitting null');
                 this.setState({
                     redirectTo: route
                 })
@@ -56,7 +56,7 @@ export default class Store extends Component {
                     artistName: res.data.artistName,
                       data: [...res.data]
                 });
-                console.log('-----------' + JSON.stringify(this.state.data, null, 3));
+               
         });
     }
 

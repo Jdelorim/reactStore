@@ -11,30 +11,27 @@ export default class Login extends Component {
             password: '',
             redirectTo: null
         }
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+     
     }
-    onChangeEmail(e) {
+    onChangeEmail = (e) => {
         this.setState({
             email: e.target.value
         });
         console.log(`firstName: ${this.state.email}`);
     }
-    onChangePassword(e) {
+    onChangePassword = (e) => {
         this.setState({
             password: e.target.value
         });
     }
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
 
         const data = {
             email: this.state.email,
             password: this.state.password
         }
-        // console.log(`EMAIL: ${data.email} PASS: ${data.password}`);
-
+        
         axios.post('users/login', data).then(res=>{
             if(res.status === 200) {
                 console.log('logged in successful!');

@@ -7,6 +7,7 @@ import Register from './Components/register/register';
 import Store from './Components/store/store';
 import Profile from './Components/profile/profile';
 import Cart from './Components/cart/cart';
+import Order from './Components/order/order'
 class App extends Component {
  
   render(){
@@ -35,6 +36,7 @@ class App extends Component {
     <Route path='/store' exact component= { Store } />
     <Route path='/profile' exact component={ Profile } />
     <Route path='/cart' exact component={ Cart } />
+    <Route path='/order' exact component={ Order } />
 
     </Router>
     )

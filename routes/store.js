@@ -237,8 +237,9 @@ module.exports = app => {
                     }
                     newOrder.orderNo = newNumber;
                     const pOrder = new Orders(newOrder);
-                    pOrder.save().then(res=>{
+                    pOrder.save().then(r=>{
                         console.log('next order placed ' + res);
+                         res.send(r);
                     }).then(()=>{
                         Cart.findByIdAndDelete({_id: cartId}).then(res=>{
                             console.log(res);
@@ -252,6 +253,10 @@ module.exports = app => {
                 }
             })
 
+        });
+
+        storeRoutes.route('/orderReview').get((req,res)=>{
+            console.log('hitting backend!');
         })
 
     app.use('/store', storeRoutes);
