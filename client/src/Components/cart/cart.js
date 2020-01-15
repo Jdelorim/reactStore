@@ -165,7 +165,7 @@ export default class Cart extends Component {
     
     render() {
         if(this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />
+            return <Redirect to={{ pathname: this.state.redirectTo }} push={true}  />
         } else {
         return (
             <div className='login-holder'>

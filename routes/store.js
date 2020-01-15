@@ -150,7 +150,7 @@ module.exports = app => {
             let price;
             let priceToString;
             
-            Cart.findOne({userID: userId}).exec().then(data => {
+            Cart.findOne({userID: userId}).then(data => {
                 if(data) {
                         let totalPrice = data.totalPrice;
                         let item = data.products.filter(i=>{
@@ -165,22 +165,20 @@ module.exports = app => {
                         console.log(priceToString);
 
                         console.log('should change price: ' + newTotalPrice);
-                } else {
-                    console.log('no data!');
-                    
-                }
+                } 
             }).catch(err=>{
                 console.log(err);
             }).then(()=>{
-                Cart.findOneAndUpdate({userID: userId}, {totalPrice: priceToString} ,{new: true}).exec().then(data => {
+                Cart.findOneAndUpdate({userID: userId}, {totalPrice: priceToString} ,{new: true}).then(data => {
                     console.log(data);
                 }).catch(err=>{
                     console.log(err);
                 });
             }).then(()=>{
-                Cart.findOneAndUpdate({userID: userId},{$pull:{products: {id: id}}},{new: true}).exec().then(data=>{
+                Cart.findOneAndUpdate({userID: userId},{$pull:{products: {id: id}}},{new: true}).then(data=>{
                     if(data) {
                         console.log('removed product');
+                        return res.send(data);
                     } else {
                         console.log('did not remove product');
                     }
@@ -256,7 +254,7 @@ module.exports = app => {
         });
 
         storeRoutes.route('/orderReview').get((req,res)=>{
-            console.log('hitting backend!');
+            
         })
 
     app.use('/store', storeRoutes);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
 import './App.css';
 import About from './Components/about/about'; 
 import Login from './Components/login/login';
@@ -13,6 +13,7 @@ class App extends Component {
   render(){
     return(
     <Router>
+      
       <div className='main-home'>
         <div className='nav-bar'>
           <h1>SPINSTER RECORDS</h1>
@@ -29,7 +30,7 @@ class App extends Component {
           </ul>
          </div>
     </div>
-    
+    <Switch>
     <Route path='/' exact component={ About } />
     <Route path='/registration' exact component= { Register } />
     <Route path='/login' exact component= { Login } />
@@ -37,7 +38,7 @@ class App extends Component {
     <Route path='/profile' exact component={ Profile } />
     <Route path='/cart' exact component={ Cart } />
     <Route path='/order' exact component={ Order } />
-
+    </Switch>
     </Router>
     )
   }
